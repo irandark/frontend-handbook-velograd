@@ -7,7 +7,7 @@ type SidebarStore = {
 };
 
 export const useSidebarStore = create<SidebarStore>((set) => ({
-    isResized: false,
+    isResized: true,
 
     toggle: () => set((state) => ({ isResized: !state.isResized })),
 }));

@@ -18,10 +18,13 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${inter.className}`}>
-                <Header />
-                <Sidebar />
-                {children}
+            <body className={`${inter.className} flex flex-col h-screen`}>
+                <Header className="flex-grow-0 bg-gray-800 p-4" />
+
+                <div className="flex">
+                    <Sidebar className="relative bg-gray-800 p-2 h-[90vh] mt-2 flex-grow-0 justify-start flex-col gap-5 rounded-md" />
+                    <main className="flex-grow">{children}</main>
+                </div>
             </body>
         </html>
     );
