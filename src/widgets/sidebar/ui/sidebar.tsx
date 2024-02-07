@@ -25,12 +25,12 @@ export function Sidebar({ className }: SidebarProps) {
                     {isResized && <div>{title}</div>}
                 </Link>
             ))}
-            <div
-                className={`${
-                    isResized ? "right-1" : "right-2"
-                } absolute bottom-2 cursor-pointer hover:bg-gray-700 p-2 rounded-xl`}
-            >
-                <ResizeButton />
+            <div>
+                <ResizeButton
+                    className={`${
+                        isResized ? "right-1" : "right-2"
+                    } absolute bottom-2 cursor-pointer hover:bg-gray-700 p-2 rounded-xl`}
+                />
             </div>
         </div>
     );
