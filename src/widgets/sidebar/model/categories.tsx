@@ -6,36 +6,37 @@ import {
     Wrench,
 } from "lucide-react";
 
-export const categories = [
+export const dynamicCategories = [
     {
         id: 1,
         title: "Велосипеды",
         icon: <Bike />,
-        link: "/bicycles",
     },
     {
         id: 2,
         title: "Аксессуары",
         icon: <Wrench />,
-        link: "/accessories",
     },
+];
+
+export const staticCategories = [
     {
-        id: 3,
+        id: 1,
         title: "Справочная информация",
         icon: <BookOpenText />,
-        link: "/handbook",
+        link: "http://localhost:3001/handbook",
     },
 
     {
-        id: 4,
+        id: 2,
         title: "Управление товарами",
         icon: <FilePenLine />,
-        link: "/editing",
+        link: "http://localhost:3001/editing",
     },
     {
-        id: 5,
+        id: 3,
         title: "Управление аккаунтами",
         icon: <UserRound />,
-        link: "/accounts",
+        link: "http://localhost:3001/accounts",
     },
 ];

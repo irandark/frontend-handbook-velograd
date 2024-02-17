@@ -22,7 +22,7 @@ export default function RootLayout({
                 <Header className="flex-grow-0 bg-gray-800 p-4" />
 
                 <div className="flex">
-                    <Sidebar className="relative bg-gray-800 p-2 h-[90vh] mt-2 flex-grow-0 justify-start flex-col gap-5 rounded-md" />
+                    <Sidebar className="relative bg-gray-800 p-2 h-[90vh] mt-2 flex-col gap-5 rounded-md flex-grow-0 flex-shrink-0" />
                     <main className="flex-grow">{children}</main>
                 </div>
             </body>
