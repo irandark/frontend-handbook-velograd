@@ -4,6 +4,7 @@ import { Tag } from "@/features/Tag";
 import { useEffect, useState } from "react";
 import axios from "@/shared/api/axiosConfig";
 import { ProductCard } from "@/widgets/product-card";
+import { Product } from "@/widgets/product-card/ui/ProductCard";
 
 interface Subcategory {
     id: number;
@@ -23,8 +24,9 @@ export default function Products({
 
     const [activeSubcategoryId, setActiveSubcategoryId] = useState(0);
 
-    //FIXME: create type for products
-    const [products, setProducts] = useState<any[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
+
+    //BUG: не выбирается первый тэг по умлочанию и не отправляется запрос на сервер за товарами
 
     useEffect(() => {
         try {
@@ -35,7 +37,6 @@ export default function Products({
                 );
                 setActiveSubcategoryId(data[0].id);
                 setSubcategories(data);
-                getProducts(id);
             };
 
             getSubcategories(+categoryId);
@@ -49,11 +50,11 @@ export default function Products({
         getProducts(id);
     };
 
-    const getProducts = async (id: number) => {
+    const getProducts = async (subcategoryId: number) => {
         try {
             const { data } = await axios.post("products/filtered", {
-                categoryId: 1,
-                subcategoryIds: [2],
+                categoryId: +params.categoryId,
+                subcategoryIds: [subcategoryId],
                 orderDirection: "ASC",
             });
             setProducts(data);
@@ -61,6 +62,8 @@ export default function Products({
             console.log(error);
         }
     };
+
+    console.log("products page", products);
 
     return (
         <div>
@@ -79,34 +82,9 @@ export default function Products({
                 </ul>
             </nav>
             <div className="flex flex-wrap">
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
+                {products.map((product) => (
+                    <ProductCard product={product} />
+                ))}
             </div>
         </div>
     );
