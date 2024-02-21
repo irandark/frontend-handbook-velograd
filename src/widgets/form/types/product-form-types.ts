@@ -21,6 +21,7 @@ export interface ProductFormData {
     color: string;
     frameSize: string;
     price: number;
+    categoryId: string;
 }
 
 export interface ProductFormField {

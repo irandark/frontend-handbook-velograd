@@ -79,7 +79,7 @@ export const productFormFields: ProductFormFields = [
     {
         title: "Артикул",
         label: "article",
-        required: false,
+        required: true,
     },
     {
         title: "Диаметр колес",
