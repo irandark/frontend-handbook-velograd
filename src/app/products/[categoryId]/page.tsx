@@ -76,7 +76,7 @@ export default function Products({
                                 activeSubcategoryId === id ? "bg-slate-800" : ""
                             }`}
                             key={id}
-                            name={name}
+                            title={name}
                         />
                     ))}
                 </ul>
