@@ -36,7 +36,7 @@ export const AccessoryForm = () => {
 
     return (
         <div>
-            <h1 className="text-2xl text-center mt-10">Создание товара</h1>
+            <h1 className="text-2xl text-center mt-10">Создание акссесуара</h1>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 m-10 p-10 bg-emerald-700 rounded-xl"

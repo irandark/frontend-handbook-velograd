@@ -1,5 +1,12 @@
 import { Path, UseFormRegister } from "react-hook-form";
 
+export interface DynamicProductFormFields {
+    article: string;
+    wheelDiameter: string;
+    color: string;
+    frameSize: string;
+    price: string;
+}
 export interface ProductFormData {
     name: string;
     forkName: string;
@@ -16,22 +23,14 @@ export interface ProductFormData {
     brakeType: string;
     brakeName: string;
     weight: number;
-    article: string;
-    wheelDiameter: string;
-    color: string;
-    frameSize: string;
-    price: number;
     categoryId: string;
+    dynamicFields: DynamicProductFormFields[];
 }
 
 export interface ProductFormField {
-    title: string;
+    placeholder: string;
     label: Path<ProductFormData>;
     required: boolean;
-}
-
-export interface InputProductFormProps extends ProductFormField {
-    register: UseFormRegister<ProductFormData>;
 }
 
 export type ProductFormFields = ProductFormField[];

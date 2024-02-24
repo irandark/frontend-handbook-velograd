@@ -1,8 +1,18 @@
-import axios from "@/shared/api/axiosConfig";
+import axios from "@/shared/api/axios-config";
 import { ProductFormData } from "../types/product-form-types";
 
 export const createProduct = (data: ProductFormData) => {
-    console.log(data);
+    //console.log(data);
+    const productVariants = data.dynamicFields.map((field) => {
+        return {
+            article: field.article,
+            wheelDiameter: field.wheelDiameter,
+            color: field.color,
+            frameSize: field.frameSize,
+            price: field.price,
+        };
+    });
+
     const normalizeData = {
         categoryId: 1,
         subcategoryIds: [1],
@@ -21,17 +31,8 @@ export const createProduct = (data: ProductFormData) => {
         modelYear: +data.modelYear,
         weight: +data.weight,
         numberOfSpeeds: +data.numberOfSpeeds,
-        productVariants: [
-            {
-                price: +data.price,
-                article: data.article,
-                wheelDiameter: +data.wheelDiameter,
-                color: data.color,
-                frameSize: data.frameSize,
-                photos: [],
-            },
-        ],
+        productVariants,
     };
-    //console.log(normalizeData);
+    console.log(normalizeData);
     //axios.post("products", normalizeData);
 };

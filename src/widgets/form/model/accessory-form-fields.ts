@@ -17,6 +17,11 @@ export const accessoryFormFields: AccessoryFormFields = [
         required: true,
     },
     {
+        title: "Размер",
+        label: "frameSize",
+        required: false,
+    },
+    {
         title: "Цвет",
         label: "color",
         required: false,

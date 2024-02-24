@@ -2,7 +2,7 @@
 
 import { Tag } from "@/features/Tag";
 import { useEffect, useState } from "react";
-import axios from "@/shared/api/axiosConfig";
+import axios from "@/shared/api/axios-config";
 import { ProductCard } from "@/widgets/product-card";
 import { Product } from "@/widgets/product-card/ui/ProductCard";
 
