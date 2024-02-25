@@ -25,6 +25,7 @@ export interface ProductFormData {
     weight: number;
     categoryId: string;
     dynamicFields: DynamicProductFormFields[];
+    subcategoryIds: number[];
 }
 
 export interface ProductFormField {

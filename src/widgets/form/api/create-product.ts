@@ -1,7 +1,11 @@
 import axios from "@/shared/api/axios-config";
 import { ProductFormData } from "../types/product-form-types";
 
-export const createProduct = (data: ProductFormData) => {
+export const createProduct = (
+    data: ProductFormData,
+    imageUrl: string,
+    categoryId: number
+) => {
     //console.log(data);
     const productVariants = data.dynamicFields.map((field) => {
         return {
@@ -14,8 +18,8 @@ export const createProduct = (data: ProductFormData) => {
     });
 
     const normalizeData = {
-        categoryId: 1,
-        subcategoryIds: [1],
+        categoryId,
+        subcategoryIds: data.subcategoryIds.map((id) => +id),
         name: data.name,
         brand: data.brand,
         forkName: data.forkName,
@@ -31,6 +35,7 @@ export const createProduct = (data: ProductFormData) => {
         modelYear: +data.modelYear,
         weight: +data.weight,
         numberOfSpeeds: +data.numberOfSpeeds,
+        imageUrl,
         productVariants,
     };
     console.log(normalizeData);
