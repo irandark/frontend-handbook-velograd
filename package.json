@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
     "axios": "^1.6.7",
     "firebase": "^10.8.0",
     "lucide-react": "^0.321.0",

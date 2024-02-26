@@ -67,6 +67,11 @@ export const productFormFields: ProductFormFields = [
         required: false,
     },
     {
+        placeholder: "Особенности",
+        label: "features",
+        required: false,
+    },
+    {
         placeholder: "Название тормоза",
         label: "brakeName",
         required: false,

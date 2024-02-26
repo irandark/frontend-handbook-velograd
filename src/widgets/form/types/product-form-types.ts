@@ -24,6 +24,7 @@ export interface ProductFormData {
     brakeName: string;
     weight: number;
     categoryId: string;
+    features: string;
     dynamicFields: DynamicProductFormFields[];
     subcategoryIds: number[];
 }

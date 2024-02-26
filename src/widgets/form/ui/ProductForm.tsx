@@ -5,15 +5,16 @@ import { createProduct } from "../api/create-product";
 import { dynamicProductFormFields } from "../model/dynamic-product-form-fields";
 import { Dropzone } from "@/shared/ui/dropzone";
 import { useEffect, useState } from "react";
+import { ErrorMessage } from "@hookform/error-message";
 import axios from "@/shared/api/axios-config";
+import { BIKE_CATEGORY_ID_IN_DATABASE } from "../model/constants";
 
-interface Subcategory {
+export interface Subcategory {
     id: number;
     name: string;
 }
 
 let renderCount = 0;
-const BIKE_CATEGORY_ID_IN_DATABASE = 1;
 
 export const ProductForm = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
@@ -23,18 +24,30 @@ export const ProductForm = () => {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<ProductFormData>({});
-
-    const onSubmit: SubmitHandler<ProductFormData> = (data) => {
-        createProduct(data, imageUrl, BIKE_CATEGORY_ID_IN_DATABASE);
-    };
-
-    renderCount++;
+        setError,
+    } = useForm<ProductFormData>({
+        defaultValues: {
+            subcategoryIds: [],
+        },
+    });
 
     const { fields, append } = useFieldArray({
         control,
         name: "dynamicFields",
     });
+
+    const onSubmit: SubmitHandler<ProductFormData> = (data) => {
+        if (data.subcategoryIds.length === 0) {
+            setError("subcategoryIds", {
+                type: "required",
+                message: "Выберите хотя бы одну подкатегорию",
+            });
+        } else {
+            createProduct(data, imageUrl, BIKE_CATEGORY_ID_IN_DATABASE);
+        }
+    };
+
+    renderCount++;
 
     const getSubcategoryies = async () => {
         const { data } = await axios.get(
@@ -92,19 +105,32 @@ export const ProductForm = () => {
                     </h3>
                     <div className="flex p-2 gap-2 flex-wrap">
                         {subcategories.map((subcategory) => (
-                            <div
-                                key={subcategory.id}
-                                className="p-2 bg-gray-800 flex min-w-[17%] gap-2 rounded-xl"
-                            >
-                                <input
-                                    type="checkbox"
-                                    value={subcategory.id}
-                                    {...register("subcategoryIds")}
-                                />
-                                <label htmlFor="">{subcategory.name}</label>
-                            </div>
+                            <>
+                                <div
+                                    key={subcategory.id}
+                                    className={`p-2 bg-gray-800 flex min-w-[17%] gap-2 rounded-xl ${
+                                        errors.subcategoryIds
+                                            ? "bg-red-500 animate-shake"
+                                            : ""
+                                    }`}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        value={subcategory.id}
+                                        {...register("subcategoryIds")}
+                                    />
+                                    <label htmlFor="">{subcategory.name}</label>
+                                </div>
+                            </>
                         ))}
                     </div>
+                    <ErrorMessage
+                        errors={errors}
+                        name="subcategoryIds"
+                        render={({ message }) => (
+                            <p className="text-red-500">{message}</p>
+                        )}
+                    />
                 </div>
                 <h3 className="text-xl text-center mb-5 mt-5">
                     Основные характеристики

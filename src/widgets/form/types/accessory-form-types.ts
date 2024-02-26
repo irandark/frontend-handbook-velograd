@@ -1,16 +1,23 @@
-import { Path, UseFormRegister } from "react-hook-form";
-import { ProductFormData } from "./product-form-types";
+import { Path } from "react-hook-form";
 
-export interface AccessoryFormFormData extends Partial<ProductFormData> {}
-
-export interface AccessoryFormField {
-    title: string;
-    label: Path<AccessoryFormFormData>;
-    required: boolean;
+export interface DynamicAccessoryFormFields {
+    article: string;
+    color: string;
+    frameSize: string;
+    price: string;
+}
+export interface AccessoryFormData extends Partial<DynamicAccessoryFormFields> {
+    name: string;
+    brand: string;
+    features: string;
+    subcategoryIds: number[];
+    dynamicFields: DynamicAccessoryFormFields[];
 }
 
-export interface InputProductFormProps extends AccessoryFormFormData {
-    register: UseFormRegister<AccessoryFormFormData>;
+export interface AccessoryFormField {
+    placeholder: string;
+    label: Path<AccessoryFormData>;
+    required: boolean;
 }
 
 export type AccessoryFormFields = AccessoryFormField[];

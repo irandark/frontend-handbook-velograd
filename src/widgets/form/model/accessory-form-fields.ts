@@ -2,33 +2,18 @@ import { AccessoryFormFields } from "../types/accessory-form-types";
 
 export const accessoryFormFields: AccessoryFormFields = [
     {
-        title: "Название товара",
+        placeholder: "Название товара",
         label: "name",
         required: true,
     },
     {
-        title: "Брэнд",
+        placeholder: "Брэнд",
         label: "brand",
         required: false,
     },
     {
-        title: "Артикул",
-        label: "article",
-        required: true,
-    },
-    {
-        title: "Размер",
-        label: "frameSize",
-        required: false,
-    },
-    {
-        title: "Цвет",
-        label: "color",
-        required: false,
-    },
-    {
-        title: "Цена",
-        label: "price",
+        placeholder: "Особенности",
+        label: "features",
         required: false,
     },
 ];
