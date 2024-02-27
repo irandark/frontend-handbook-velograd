@@ -4,7 +4,8 @@ import { Tag } from "@/features/Tag";
 import { useEffect, useState } from "react";
 import axios from "@/shared/api/axios-config";
 import { ProductCard } from "@/widgets/product-card";
-import { Product } from "@/widgets/product-card/ui/ProductCard";
+import { Product } from "@/widgets/product-card/types/product-types";
+import { useProductStore } from "@/widgets/product-card/model/store";
 
 interface Subcategory {
     id: number;
@@ -24,9 +25,10 @@ export default function Products({
 
     const [activeSubcategoryId, setActiveSubcategoryId] = useState(0);
 
-    const [products, setProducts] = useState<Product[]>([]);
-
-    //BUG: не выбирается первый тэг по умлочанию и не отправляется запрос на сервер за товарами
+    const { products, getProducts } = useProductStore((state) => ({
+        products: state.products,
+        getProducts: state.getProducts,
+    }));
 
     useEffect(() => {
         try {
@@ -35,8 +37,12 @@ export default function Products({
                 const { data } = await axios<Subcategories>(
                     `subcategory/category/${id}`
                 );
-                setActiveSubcategoryId(data[0].id);
+
+                const firstSubcategoryId = data[0].id;
+
+                setActiveSubcategoryId(firstSubcategoryId);
                 setSubcategories(data);
+                getProducts(+categoryId, [firstSubcategoryId], "ASC");
             };
 
             getSubcategories(+categoryId);
@@ -47,20 +53,7 @@ export default function Products({
 
     const handlerTagClick = (id: number) => {
         setActiveSubcategoryId(id);
-        getProducts(id);
-    };
-
-    const getProducts = async (subcategoryId: number) => {
-        try {
-            const { data } = await axios.post("products/filtered", {
-                categoryId: +params.categoryId,
-                subcategoryIds: [subcategoryId],
-                orderDirection: "ASC",
-            });
-            setProducts(data);
-        } catch (error) {
-            console.log(error);
-        }
+        getProducts(+params.categoryId, [id], "ASC");
     };
 
     console.log("products page", products);
@@ -83,7 +76,11 @@ export default function Products({
             </nav>
             <div className="flex flex-wrap">
                 {products.map((product) => (
-                    <ProductCard product={product} />
+                    <ProductCard
+                        product={product}
+                        key={product.id}
+                        categoryId={params.categoryId}
+                    />
                 ))}
             </div>
         </div>

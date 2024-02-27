@@ -6,7 +6,7 @@ export interface SubcategoryFormData {
 }
 
 export interface SubcategoryFormField {
-    title: string;
+    placeholder: string;
     label: Path<SubcategoryFormData>;
     required: boolean;
 }

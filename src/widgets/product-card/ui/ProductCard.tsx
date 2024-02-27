@@ -1,37 +1,11 @@
-import { FC } from "react";
+import { Product } from "../types/product-types";
 
-interface ProductVariant {
-    photos?: string[];
-    id: number;
-    article: string;
-    wheelDiameter?: string;
-    color?: string;
-    frameSize?: string;
-    price: number;
-    stockItems?: any[]; //FIXME:Здесь следует уточнить тип данных для элементов в stockItems
+interface ProductCardProps {
+    product: Product;
+    categoryId: string;
 }
 
-export interface Product {
-    id: number;
-    name?: string;
-    brand?: string;
-    frameMaterial?: string;
-    modelYear?: number;
-    forkType?: string;
-    forkName?: string;
-    numberOfSpeeds?: string;
-    rearDerailleur?: string;
-    frontDerailleur?: string;
-    shifters?: string;
-    system?: string;
-    cassette?: string;
-    brakeType?: string;
-    brakeName?: string;
-    weight?: number;
-    productVariants?: ProductVariant[];
-}
-
-export const ProductCard = ({ product }: { product: Product }) => {
+export const ProductCard = ({ product, categoryId }: ProductCardProps) => {
     const {
         name,
         productVariants,
@@ -41,12 +15,18 @@ export const ProductCard = ({ product }: { product: Product }) => {
         frontDerailleur,
         rearDerailleur,
         brakeType,
+        imageUrl,
     } = product;
+
     return (
-        <div className="w-72 min-h-96 bg-red-400 rounded-xl p-2 m-2">
+        <div className="w-72 min-h-96 bg-sky-700 rounded-xl p-2 m-2 hover:bg-sky-900 cursor-pointer">
             <p className="text-xl text-center p-2">{name}</p>
-            <div className="w-32 h-32 bg-orange-300 rounded-2xl m-auto">
-                {productVariants && productVariants[0].photos}
+            <div className="w-44 h-44 rounded-2xl m-auto">
+                <img
+                    src={imageUrl}
+                    alt="фото товара"
+                    className="w-full h-full object-contain"
+                />
             </div>
             <div className="flex justify-between">
                 <p>артикул:</p>

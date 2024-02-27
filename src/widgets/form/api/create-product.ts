@@ -11,7 +11,7 @@ function isProductFormData(data: unknown): data is ProductFormData {
     return (data as ProductFormData).cassette !== undefined;
 }
 
-export const createProduct = (
+export const createProduct = async (
     data: AccessoryFormData | ProductFormData,
     imageUrl: string,
     categoryId: number
@@ -70,5 +70,5 @@ export const createProduct = (
     }
 
     console.log(responseData);
-    axios.post("products", responseData);
+    await axios.post("products", responseData);
 };
