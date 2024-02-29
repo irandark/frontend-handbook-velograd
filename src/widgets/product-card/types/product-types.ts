@@ -29,3 +29,7 @@ export interface Product {
     weight?: number;
     productVariants?: ProductVariant[];
 }
+
+export interface ProductCardProps {
+    product: Product;
+}

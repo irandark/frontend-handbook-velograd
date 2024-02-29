@@ -3,9 +3,9 @@
 import { Tag } from "@/features/Tag";
 import { useEffect, useState } from "react";
 import axios from "@/shared/api/axios-config";
-import { ProductCard } from "@/widgets/product-card";
-import { Product } from "@/widgets/product-card/types/product-types";
 import { useProductStore } from "@/widgets/product-card/model/store";
+import { BIKE_CATEGORY_ID_IN_DATABASE } from "@/widgets/form/model/constants";
+import { AccessoryCard, BikeCard } from "@/widgets/product-card";
 
 interface Subcategory {
     id: number;
@@ -56,7 +56,7 @@ export default function Products({
         getProducts(+params.categoryId, [id], "ASC");
     };
 
-    console.log("products page", products);
+    //console.log("products page", products);
 
     return (
         <div>
@@ -75,13 +75,13 @@ export default function Products({
                 </ul>
             </nav>
             <div className="flex flex-wrap">
-                {products.map((product) => (
-                    <ProductCard
-                        product={product}
-                        key={product.id}
-                        categoryId={params.categoryId}
-                    />
-                ))}
+                {products.map((product) =>
+                    +params.categoryId === BIKE_CATEGORY_ID_IN_DATABASE ? (
+                        <BikeCard product={product} key={product.id} />
+                    ) : (
+                        <AccessoryCard product={product} key={product.id} />
+                    )
+                )}
             </div>
         </div>
     );
