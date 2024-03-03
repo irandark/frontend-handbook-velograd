@@ -1,8 +1,7 @@
-import { Tag } from "@/features/Tag";
 import { CircleFadingPlus } from "lucide-react";
-import { useState } from "react";
 import { activeFormConfig } from "../model/active-form-config";
 import { useActiveFormStore } from "../model/store";
+import { Tag } from "@/shared/ui/tag";
 
 export const SelectForm = () => {
     const { activeFormId, setActiveFormById } = useActiveFormStore();

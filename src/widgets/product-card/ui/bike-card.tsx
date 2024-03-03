@@ -5,6 +5,7 @@ import {
     ProductVariant,
 } from "../types/product-types";
 import { ClipboardCopy } from "lucide-react";
+import { LinkToFullProductPage } from "./link-to-fullproduct-page";
 
 export const BikeCard = ({ product }: ProductCardProps) => {
     const [activeArticleId, setActiveArticleId] = useState(0);
@@ -52,7 +53,7 @@ export const BikeCard = ({ product }: ProductCardProps) => {
 
     return (
         <div className="min-w-96 min-h-96 bg-sky-700 rounded-xl p-2 m-2 hover:bg-sky-900">
-            <p className="text-xl text-center p-2">{name}</p>
+            <LinkToFullProductPage id={product.id} name={name} />
             <div>
                 <select
                     name="variants"

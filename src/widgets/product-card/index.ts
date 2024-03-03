@@ -1,2 +1,1 @@
-export { BikeCard } from "./ui/bike-card";
-export { AccessoryCard } from "./ui/accessory-card";
+export { ProductCards } from "./ui/product-cards";

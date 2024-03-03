@@ -49,7 +49,7 @@ export default function ProductPage({
     });
 
     return (
-        <div className="flex gap-5 justify-around">
+        <div className="flex">
             <div className="m-auto w-1/2">
                 <h1 className="text-3xl mt-5 font-bold">
                     {currentProduct?.name}
@@ -61,12 +61,10 @@ export default function ProductPage({
                 />
                 <div className="flex flex-wrap gap-5">
                     {productVariants && productVariants}
-                    {productVariants && productVariants}
-                    {productVariants && productVariants}
                 </div>
             </div>
 
-            <div className="m-auto min-w-1/2 border p-2 rounded-xl flex flex-col gap-2">
+            <div className="self-start mt-10 mr-44 min-w-1/2 border p-2 rounded-xl flex flex-col gap-2">
                 {createFieldsForFullProduct(currentProduct as Product).map(
                     (field) => (
                         <>

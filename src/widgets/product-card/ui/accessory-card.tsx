@@ -2,6 +2,7 @@ import { ClipboardCopy } from "lucide-react";
 import { ProductCardProps, ProductVariant } from "../types/product-types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { LinkToFullProductPage } from "./link-to-fullproduct-page";
 
 export const AccessoryCard = ({ product }: ProductCardProps) => {
     const [activeArticleId, setActiveArticleId] = useState(0);
@@ -39,12 +40,7 @@ export const AccessoryCard = ({ product }: ProductCardProps) => {
 
     return (
         <div className="min-w-96 min-h-96 bg-sky-700 rounded-xl p-2 m-2 hover:bg-sky-900">
-            <Link
-                href={`/fullproduct/${product.id}`}
-                className="text-xl text-center p-2 cursor-pointer hover:text-green-700"
-            >
-                {name}
-            </Link>
+            <LinkToFullProductPage id={product.id} name={name} />
             <div>
                 <select
                     name="variants"
