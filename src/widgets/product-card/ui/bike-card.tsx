@@ -5,13 +5,19 @@ import {
     ProductVariant,
 } from "../types/product-types";
 import { ClipboardCopy } from "lucide-react";
-import { LinkToFullProductPage } from "./link-to-fullproduct-page";
+import { useModalStore } from "@/shared/ui/modal/model/store";
+import { useProductStore } from "../model/store";
+import { copyToClipboard } from "../lib/copy-to-clipboard";
 
 export const BikeCard = ({ product }: ProductCardProps) => {
     const [activeArticleId, setActiveArticleId] = useState(0);
     const [variants, setVariants] = useState<{ id: number; title: string }[]>(
         []
     );
+
+    const { openModal } = useModalStore();
+    const { setCurrentProduct } = useProductStore();
+
     const {
         name,
         productVariants,
@@ -35,15 +41,6 @@ export const BikeCard = ({ product }: ProductCardProps) => {
         });
     };
 
-    const copyToClipboard = async (text: string) => {
-        try {
-            await navigator.clipboard.writeText(text);
-            alert("Скопировано в буфер обмена");
-        } catch (error) {
-            console.error("Error copying text to clipboard:", error);
-        }
-    };
-
     useEffect(() => {
         if (productVariants) {
             setActiveArticleId(productVariants[0].id);
@@ -51,9 +48,30 @@ export const BikeCard = ({ product }: ProductCardProps) => {
         }
     }, []);
 
+    const handlerTitleOnClick = (product: Product) => {
+        setCurrentProduct(product);
+        openModal();
+    };
+
+    const handlerCopyToClipboard = async () => {
+        const currentVariant = productVariants?.find((variant) => {
+            return variant.id === activeArticleId;
+        });
+
+        const article = currentVariant?.article || "";
+
+        await copyToClipboard(article);
+    };
+
     return (
         <div className="min-w-96 min-h-96 bg-sky-700 rounded-xl p-2 m-2 hover:bg-sky-900">
-            <LinkToFullProductPage id={product.id} name={name} />
+            <div
+                onClick={() => handlerTitleOnClick(product)}
+                className="text-2xl text-center text-red-400 cursor-pointer"
+            >
+                {name}
+            </div>
+
             <div>
                 <select
                     name="variants"
@@ -79,21 +97,20 @@ export const BikeCard = ({ product }: ProductCardProps) => {
                     className="w-full h-full object-contain"
                 />
             </div>
-            <div className="flex justify-between border p-1 rounded-xl">
+            <div
+                className="flex justify-between border p-1 rounded-xl cursor-pointer hover:bg-green-800"
+                onClick={handlerCopyToClipboard}
+            >
                 <p>артикул:</p>
-                <p>
+                <div>
                     {productVariants &&
                         productVariants.map((variant) => (
-                            <p
-                                key={variant.id}
-                                onClick={() => copyToClipboard(variant.article)}
-                                className="cursor-pointer hover:text-green-700"
-                            >
+                            <div key={variant.id}>
                                 {variant.id === activeArticleId &&
                                     variant.article}
-                            </p>
+                            </div>
                         ))}
-                </p>
+                </div>
                 <ClipboardCopy className="w-6 h-6" />
             </div>
 
@@ -123,7 +140,7 @@ export const BikeCard = ({ product }: ProductCardProps) => {
             </div>
             <div className="flex justify-between">
                 <p>цена</p>
-                <p>
+                <div>
                     {productVariants &&
                         productVariants.map((variant) => (
                             <p key={variant.id}>
@@ -131,7 +148,7 @@ export const BikeCard = ({ product }: ProductCardProps) => {
                                     variant.price}
                             </p>
                         ))}
-                </p>
+                </div>
             </div>
         </div>
     );

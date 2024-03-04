@@ -4,19 +4,22 @@ import axios from "@/shared/api/axios-config";
 
 type ProductStore = {
     products: Product[];
+    currentProduct: Product | null;
 
     getProducts: (
         categoryId: number,
         subcategoryIds: number[],
         orderDirection?: "ASC" | "DESC"
     ) => void;
+
+    setCurrentProduct: (product: Product) => void;
 };
 
 export const useProductStore = create<ProductStore>((set) => ({
     products: [],
+    currentProduct: null,
 
     getProducts: async (categoryId, subcategoryIds, orderDirection = "ASC") => {
-        console.log("categoryId", categoryId, "subcategoryIds", subcategoryIds);
         const { data } = await axios.post("products/filtered", {
             categoryId,
             subcategoryIds,
@@ -24,5 +27,9 @@ export const useProductStore = create<ProductStore>((set) => ({
         });
 
         set({ products: data });
+    },
+
+    setCurrentProduct: (product) => {
+        set({ currentProduct: product });
     },
 }));

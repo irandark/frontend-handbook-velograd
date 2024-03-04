@@ -1,14 +1,21 @@
 import { ClipboardCopy } from "lucide-react";
-import { ProductCardProps, ProductVariant } from "../types/product-types";
+import {
+    Product,
+    ProductCardProps,
+    ProductVariant,
+} from "../types/product-types";
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { LinkToFullProductPage } from "./link-to-fullproduct-page";
+import { useModalStore } from "@/shared/ui/modal/model/store";
+import { useProductStore } from "../model/store";
 
 export const AccessoryCard = ({ product }: ProductCardProps) => {
     const [activeArticleId, setActiveArticleId] = useState(0);
     const [variants, setVariants] = useState<{ id: number; title: string }[]>(
         []
     );
+    const { openModal } = useModalStore();
+    const { setCurrentProduct } = useProductStore();
+
     const { name, productVariants, imageUrl } = product;
 
     const copyToClipboard = async (text: string) => {
@@ -38,10 +45,21 @@ export const AccessoryCard = ({ product }: ProductCardProps) => {
         }
     }, []);
 
+    const handlerTitleOnClick = (product: Product) => {
+        setCurrentProduct(product);
+        openModal();
+    };
+
     return (
         <div className="min-w-96 min-h-96 bg-sky-700 rounded-xl p-2 m-2 hover:bg-sky-900">
-            <LinkToFullProductPage id={product.id} name={name} />
             <div>
+                <p
+                    className="text-2xl font-bold cursor-pointer"
+                    onClick={() => handlerTitleOnClick(product)}
+                >
+                    {name}
+                </p>
+
                 <select
                     name="variants"
                     id="1"
@@ -68,19 +86,19 @@ export const AccessoryCard = ({ product }: ProductCardProps) => {
             </div>
             <div className="flex justify-between border p-1 rounded-xl">
                 <p>артикул:</p>
-                <p>
+                <div>
                     {productVariants &&
                         productVariants.map((variant) => (
-                            <p
+                            <div
                                 key={variant.id}
                                 onClick={() => copyToClipboard(variant.article)}
                                 className="cursor-pointer hover:text-green-700"
                             >
                                 {variant.id === activeArticleId &&
                                     variant.article}
-                            </p>
+                            </div>
                         ))}
-                </p>
+                </div>
                 <ClipboardCopy className="w-6 h-6" />
             </div>
             <div className="flex justify-between">
@@ -89,7 +107,7 @@ export const AccessoryCard = ({ product }: ProductCardProps) => {
             </div>
             <div className="flex justify-between">
                 <p>цена</p>
-                <p>
+                <div>
                     {productVariants &&
                         productVariants.map((variant) => (
                             <p key={variant.id}>
@@ -97,7 +115,7 @@ export const AccessoryCard = ({ product }: ProductCardProps) => {
                                     variant.price}
                             </p>
                         ))}
-                </p>
+                </div>
             </div>
         </div>
     );
