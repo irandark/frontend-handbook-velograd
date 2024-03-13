@@ -1,5 +1,5 @@
 import axios from "@/shared/api/axios-config";
-import { ProductFormData } from "../types/product-form-types";
+import { BikeFormData } from "../types/bike-form-types";
 import {
     BIKE_CATEGORY_ID_IN_DATABASE,
     SUBCATEGORY_CATEGORY_ID_IN_DATABASE,
@@ -7,12 +7,12 @@ import {
 import { AccessoryFormData } from "../types/accessory-form-types";
 import { ResponseData } from "../types/response-data-types";
 
-function isProductFormData(data: unknown): data is ProductFormData {
-    return (data as ProductFormData).cassette !== undefined;
+function isProductFormData(data: unknown): data is BikeFormData {
+    return (data as BikeFormData).cassette !== undefined;
 }
 
 export const createProduct = async (
-    data: AccessoryFormData | ProductFormData,
+    data: AccessoryFormData | BikeFormData,
     imageUrl: string,
     categoryId: number
 ) => {

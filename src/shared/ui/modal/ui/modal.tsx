@@ -1,10 +1,13 @@
 import { createPortal } from "react-dom";
-import { useModalStore } from "../model/store";
 import { useEffect, useState } from "react";
 
-export const Modal = ({ children }: React.PropsWithChildren) => {
+interface ModalProps {
+    children: React.ReactNode;
+    isOpen: boolean;
+}
+
+export const Modal = ({ children, isOpen }: ModalProps) => {
     const [modalContainer] = useState(document.createElement("div"));
-    const { isOpen } = useModalStore();
 
     useEffect(() => {
         document.body.appendChild(modalContainer);

@@ -1,3 +1,6 @@
-export { ProductForm } from "./ui/ProductForm";
-export { SubcategoryForm } from "./ui/SubcategoryForm";
-export { AccessoryForm } from "./ui/AccessoryForm";
+export { NewBikeForm } from "./ui/new-bike-form";
+export { NewSubcategoryForm } from "./ui/new-subcategory-form";
+export { NewAccessoryForm } from "./ui/new-accessory-form";
+export { EditBikeForm } from "./ui/edit-bike-form";
+export { EditAccessoryForm } from "./ui/edit-accessory-form";
+export { EditSubcategoryForm } from "./ui/edit-subcategory-form";

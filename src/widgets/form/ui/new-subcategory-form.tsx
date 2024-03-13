@@ -3,7 +3,7 @@ import { SubcategoryFormData } from "../types/subcategory-form-types";
 import { subcategoryFormFields } from "../model/subcategory-form-fields";
 import { createSubcategory } from "../api/create-subcategory";
 
-export const SubcategoryForm = () => {
+export const NewSubcategoryForm = () => {
     const {
         register,
         handleSubmit,

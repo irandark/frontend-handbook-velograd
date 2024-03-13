@@ -1,8 +1,14 @@
 import { Path, UseFormRegister } from "react-hook-form";
 
+interface DynamicSubcategoryFormFields {
+    name: string;
+    subcategoryId: number;
+}
+
 export interface SubcategoryFormData {
     name: string;
     category: string;
+    dynamicFields: DynamicSubcategoryFormFields[];
 }
 
 export interface SubcategoryFormField {

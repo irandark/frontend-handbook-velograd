@@ -1,4 +1,4 @@
-export const dynamicProductFormFields = [
+export const dynamicBikeFormFields = [
     {
         placeholder: "Артикул",
         label: "article",

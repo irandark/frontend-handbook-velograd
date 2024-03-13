@@ -1,6 +1,6 @@
-import { ProductFormFields } from "../types/product-form-types";
+import { BikeFormFields } from "../types/bike-form-types";
 
-export const productFormFields: ProductFormFields = [
+export const bikeFormFields: BikeFormFields = [
     {
         placeholder: "Название товара",
         label: "name",

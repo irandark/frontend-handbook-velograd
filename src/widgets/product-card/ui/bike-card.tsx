@@ -5,9 +5,10 @@ import {
     ProductVariant,
 } from "../types/product-types";
 import { ClipboardCopy } from "lucide-react";
-import { useModalStore } from "@/shared/ui/modal/model/store";
 import { useProductStore } from "../model/store";
 import { copyToClipboard } from "../lib/copy-to-clipboard";
+import { Modal, useModal } from "@/shared/ui/modal";
+import { FullProductCard } from "..";
 
 export const BikeCard = ({ product }: ProductCardProps) => {
     const [activeArticleId, setActiveArticleId] = useState(0);
@@ -15,8 +16,8 @@ export const BikeCard = ({ product }: ProductCardProps) => {
         []
     );
 
-    const { openModal } = useModalStore();
-    const { setCurrentProduct } = useProductStore();
+    const { openModal, isOpen } = useModal();
+    const { setCurrentProduct, currentProduct } = useProductStore();
 
     const {
         name,
@@ -65,6 +66,9 @@ export const BikeCard = ({ product }: ProductCardProps) => {
 
     return (
         <div className="min-w-96 min-h-96 bg-sky-700 rounded-xl p-2 m-2 hover:bg-sky-900">
+            <Modal isOpen={isOpen}>
+                <FullProductCard product={currentProduct} />
+            </Modal>
             <div
                 onClick={() => handlerTitleOnClick(product)}
                 className="text-2xl text-center text-red-400 cursor-pointer"
@@ -116,23 +120,23 @@ export const BikeCard = ({ product }: ProductCardProps) => {
 
             <div className="flex justify-between">
                 <p>тип вилки</p>
-                <p>{forkType}</p>
+                <p>{forkType ? forkType : "нет данных"}</p>
             </div>
             <div className="flex justify-between">
                 <p>вилка</p>
-                <p>{forkName}</p>
+                <p>{forkName ? forkName : "нет данных"}</p>
             </div>
             <div className="flex justify-between">
-                <p>пер. торм.</p>
-                <p>{frontDerailleur}</p>
+                <p>п. перек.</p>
+                <p>{frontDerailleur ? frontDerailleur : "нет данных"}</p>
             </div>
             <div className="flex justify-between">
-                <p>здн. торм.</p>
-                <p>{rearDerailleur}</p>
+                <p>з. перек.</p>
+                <p>{rearDerailleur ? rearDerailleur : "нет данных"}</p>
             </div>
             <div className="flex justify-between">
                 <p>тип торм.</p>
-                <p>{brakeType}</p>
+                <p>{brakeType ? brakeType : "нет данных"}</p>
             </div>
             <div className="flex justify-between">
                 <p>наличие шт</p>

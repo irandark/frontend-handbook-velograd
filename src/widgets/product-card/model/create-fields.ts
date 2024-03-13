@@ -1,6 +1,6 @@
 import { Product } from "@/widgets/product-card/types/product-types";
 
-export const createFieldsForFullProduct = (product: Product) => {
+export const createFieldsForFullProduct = (product: Product | null) => {
     return [
         {
             id: 1,

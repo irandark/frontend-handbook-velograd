@@ -1,22 +1,18 @@
 import { Path, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { productFormFields } from "../model/product-form-fields";
-import { ProductFormData } from "../types/product-form-types";
 import { createProduct } from "../api/create-product";
-import { dynamicProductFormFields } from "../model/dynamic-product-form-fields";
+import { dynamicBikeFormFields } from "../model/dynamic-bike-form-fields";
 import { Dropzone } from "@/shared/ui/dropzone";
 import { useEffect, useState } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import axios from "@/shared/api/axios-config";
 import { BIKE_CATEGORY_ID_IN_DATABASE } from "../model/constants";
-
-export interface Subcategory {
-    id: number;
-    name: string;
-}
+import { Subcategory } from "@/widgets/product-card/types/product-types";
+import { BikeFormData } from "../types/bike-form-types";
+import { bikeFormFields } from "../model/bike-form-fields";
 
 let renderCount = 0;
 
-export const ProductForm = () => {
+export const NewBikeForm = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
     const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
     const {
@@ -25,7 +21,7 @@ export const ProductForm = () => {
         control,
         formState: { errors },
         setError,
-    } = useForm<ProductFormData>({
+    } = useForm<BikeFormData>({
         defaultValues: {
             subcategoryIds: [],
         },
@@ -36,7 +32,7 @@ export const ProductForm = () => {
         name: "dynamicFields",
     });
 
-    const onSubmit: SubmitHandler<ProductFormData> = (data) => {
+    const onSubmit: SubmitHandler<BikeFormData> = (data) => {
         if (data.subcategoryIds.length === 0) {
             setError("subcategoryIds", {
                 type: "required",
@@ -105,9 +101,8 @@ export const ProductForm = () => {
                     </h3>
                     <div className="flex p-2 gap-2 flex-wrap">
                         {subcategories.map((subcategory) => (
-                            <>
+                            <div key={subcategory.id}>
                                 <div
-                                    key={subcategory.id}
                                     className={`p-2 bg-gray-800 flex min-w-[17%] gap-2 rounded-xl ${
                                         errors.subcategoryIds
                                             ? "bg-red-500 animate-shake"
@@ -121,7 +116,7 @@ export const ProductForm = () => {
                                     />
                                     <label htmlFor="">{subcategory.name}</label>
                                 </div>
-                            </>
+                            </div>
                         ))}
                     </div>
                     <ErrorMessage
@@ -136,18 +131,16 @@ export const ProductForm = () => {
                     Основные характеристики
                 </h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 m-4 p-10 bg-emerald-700 rounded-xl">
-                    {productFormFields.map(
-                        ({ placeholder, label, required }) => (
-                            <div key={placeholder}>
-                                <input
-                                    {...register(label, { required })}
-                                    autoComplete="off"
-                                    placeholder={placeholder}
-                                    className="text-black w-48 rounded-md p-1 mb-2"
-                                />
-                            </div>
-                        )
-                    )}
+                    {bikeFormFields.map(({ placeholder, label, required }) => (
+                        <div key={placeholder}>
+                            <input
+                                {...register(label, { required })}
+                                autoComplete="off"
+                                placeholder={placeholder}
+                                className="text-black w-48 rounded-md p-1 mb-2"
+                            />
+                        </div>
+                    ))}
                 </div>
                 <div className="flex flex-col">
                     <button
@@ -168,11 +161,11 @@ export const ProductForm = () => {
                             key={id}
                             className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mr-4 mb-2 ml-4 p-10 bg-emerald-700 rounded-xl"
                         >
-                            {dynamicProductFormFields.map(
+                            {dynamicBikeFormFields.map(
                                 ({ placeholder, label, required }) => (
                                     <input
                                         {...register(
-                                            `dynamicFields[${index}].${label}` as Path<ProductFormData>
+                                            `dynamicFields[${index}].${label}` as Path<BikeFormData>
                                         )}
                                         autoComplete="off"
                                         placeholder={placeholder}

@@ -2,7 +2,12 @@
 
 import { SelectForm } from "@/features/select-form";
 import { useActiveFormStore } from "@/features/select-form/model/store";
-import { AccessoryForm, ProductForm, SubcategoryForm } from "@/widgets/form";
+import {
+    EditSubcategoryForm,
+    NewAccessoryForm,
+    NewBikeForm,
+    NewSubcategoryForm,
+} from "@/widgets/form";
 
 export default function Editing() {
     const { activeFormId } = useActiveFormStore();
@@ -10,9 +15,10 @@ export default function Editing() {
         <div>
             <SelectForm />
 
-            {activeFormId === 1 && <ProductForm />}
-            {activeFormId === 2 && <AccessoryForm />}
-            {activeFormId === 3 && <SubcategoryForm />}
+            {activeFormId === 1 && <NewBikeForm />}
+            {activeFormId === 2 && <NewAccessoryForm />}
+            {activeFormId === 3 && <NewSubcategoryForm />}
+            {activeFormId === 4 && <EditSubcategoryForm />}
         </div>
     );
 }

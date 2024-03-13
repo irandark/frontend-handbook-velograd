@@ -1,13 +1,13 @@
 import { Path, UseFormRegister } from "react-hook-form";
 
-export interface DynamicProductFormFields {
+export interface DynamicBikeFormFields {
     article: string;
     wheelDiameter: string;
     color: string;
     frameSize: string;
     price: string;
 }
-export interface ProductFormData {
+export interface BikeFormData {
     name: string;
     forkName: string;
     brand: string;
@@ -25,14 +25,14 @@ export interface ProductFormData {
     weight: number;
     categoryId: string;
     features: string;
-    dynamicFields: DynamicProductFormFields[];
+    dynamicFields: DynamicBikeFormFields[];
     subcategoryIds: number[];
 }
 
-export interface ProductFormField {
+export interface BikeFormField {
     placeholder: string;
-    label: Path<ProductFormData>;
+    label: Path<BikeFormData>;
     required: boolean;
 }
 
-export type ProductFormFields = ProductFormField[];
+export type BikeFormFields = BikeFormField[];

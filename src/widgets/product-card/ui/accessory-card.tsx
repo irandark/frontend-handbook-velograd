@@ -5,16 +5,17 @@ import {
     ProductVariant,
 } from "../types/product-types";
 import { useEffect, useState } from "react";
-import { useModalStore } from "@/shared/ui/modal/model/store";
 import { useProductStore } from "../model/store";
+import { Modal, useModal } from "@/shared/ui/modal";
+import { FullProductCard } from "..";
 
 export const AccessoryCard = ({ product }: ProductCardProps) => {
     const [activeArticleId, setActiveArticleId] = useState(0);
     const [variants, setVariants] = useState<{ id: number; title: string }[]>(
         []
     );
-    const { openModal } = useModalStore();
-    const { setCurrentProduct } = useProductStore();
+    const { openModal, isOpen } = useModal();
+    const { setCurrentProduct, currentProduct } = useProductStore();
 
     const { name, productVariants, imageUrl } = product;
 
@@ -52,6 +53,9 @@ export const AccessoryCard = ({ product }: ProductCardProps) => {
 
     return (
         <div className="min-w-96 min-h-96 bg-sky-700 rounded-xl p-2 m-2 hover:bg-sky-900">
+            <Modal isOpen={isOpen}>
+                <FullProductCard product={currentProduct} />
+            </Modal>
             <div>
                 <p
                     className="text-2xl font-bold cursor-pointer"

@@ -11,4 +11,8 @@ export const activeFormConfig = [
         id: 3,
         title: "Добавить категорию",
     },
+    {
+        id: 4,
+        title: "Редактировать категорию",
+    },
 ];

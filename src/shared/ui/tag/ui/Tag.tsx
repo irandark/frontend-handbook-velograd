@@ -9,9 +9,9 @@ interface Tag {
 
 export function Tag({ title, className, onClick, iconLucide }: Tag) {
     return (
-        <li onClick={onClick} className={className}>
+        <div onClick={onClick} className={className}>
             {iconLucide ? iconLucide : ""}
             <p>{title}</p>
-        </li>
+        </div>
     );
 }

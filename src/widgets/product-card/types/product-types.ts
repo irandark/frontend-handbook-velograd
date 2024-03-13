@@ -1,3 +1,10 @@
+export interface Category {
+    id: number;
+    name: string;
+}
+
+export interface Subcategory extends Category {}
+
 export interface ProductVariant {
     id: number;
     article: string;
@@ -27,7 +34,9 @@ export interface Product {
     features?: string;
     imageUrl?: string;
     weight?: number;
-    productVariants?: ProductVariant[];
+    productVariants: ProductVariant[];
+    subcategories?: Subcategory[];
+    category: Category;
 }
 
 export interface ProductCardProps {
