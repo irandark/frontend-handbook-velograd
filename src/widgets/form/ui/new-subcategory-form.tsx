@@ -16,13 +16,19 @@ export const NewSubcategoryForm = () => {
 
     return (
         <div>
-            <h1 className="text-2xl text-center mt-10 mb-10">
-                Создание категории
-            </h1>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col items-center gap-2 p-10 bg-emerald-700 rounded-xl w-2/4 m-auto"
+                className={`flex flex-col items-center gap-2 p-10 rounded-xl w-2/4 m-auto mt-32 ${
+                    errors.name
+                        ? "shadow-lg shadow-rose-600 bg-neutral-800 animate-shake"
+                        : "form-bg"
+                }`}
             >
+                {errors.name && (
+                    <p className="text-rose-400 opacity-70 text-center mt-2 mb-2">
+                        Название категории не должно быть пустым
+                    </p>
+                )}
                 {subcategoryFormFields.map(
                     ({ placeholder, label, required }) => (
                         <div key={placeholder}>
@@ -48,7 +54,9 @@ export const NewSubcategoryForm = () => {
                 </div>
 
                 <button
-                    className="bg-red-700 p-2 rounded-xl hover:bg-red-900 cursor-pointer h-fit w-fit mt-10"
+                    className="bg-gradient-to-r from-amber-700 to-amber-600 p-2 
+                                rounded-xl hover:opacity-70 transition
+                                cursor-pointer h-10 w-fit self-center mt-10"
                     type="submit"
                 >
                     Создать категорию

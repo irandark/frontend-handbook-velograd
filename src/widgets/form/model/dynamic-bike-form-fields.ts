@@ -1,6 +1,6 @@
 export const dynamicBikeFormFields = [
     {
-        placeholder: "Артикул",
+        placeholder: "Артикул*",
         label: "article",
         required: true,
     },

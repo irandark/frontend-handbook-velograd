@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/widgets/header";
 import { Sidebar } from "@/widgets/sidebar";
 
-const inter = Inter({ subsets: ["latin"] });
+const zen = Noto_Sans({
+    subsets: ["cyrillic", "latin"],
+    weight: ["300", "400", "500", "600", "700"],
+    display: "swap",
+    variable: "--font-zen",
+    style: ["normal"],
+});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -18,11 +24,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${inter.className} flex flex-col h-screen`}>
-                <Header className="flex-grow-0 bg-gray-800 p-4" />
+            <body className={`${zen.className} flex flex-col h-screen`}>
+                <Header className="flex-grow-0 gradient-black-to-gray p-4" />
 
                 <div className="flex">
-                    <Sidebar className="relative bg-gray-800 p-2 h-[90vh] mt-2 flex-col gap-5 rounded-md flex-grow-0 flex-shrink-0" />
+                    <Sidebar className="relative gradient-black-to-gray p-2 h-[90vh] mt-2 flex-col gap-5 rounded-md flex-grow-0 flex-shrink-0 transition-all ease-in-out" />
                     <main className="flex-grow">{children}</main>
                 </div>
             </body>

@@ -16,7 +16,9 @@ export const BikeCard = ({ product }: ProductCardProps) => {
         []
     );
 
-    const { openModal, isOpen } = useModal();
+    const { openModal, isOpen, closeModal } = useModal();
+    const [isStartCloseModalAnimation, setIsStartCloseModalAnimation] =
+        useState(false);
     const { setCurrentProduct, currentProduct } = useProductStore();
 
     const {
@@ -65,13 +67,30 @@ export const BikeCard = ({ product }: ProductCardProps) => {
     };
 
     return (
-        <div className="min-w-96 min-h-96 bg-sky-700 rounded-xl p-2 m-2 hover:bg-sky-900">
-            <Modal isOpen={isOpen}>
-                <FullProductCard product={currentProduct} />
+        <div
+            className="min-w-96 min-h-96 
+                      bg-gradient-to-r from-neutral-800 via-neutral-800 to-neutral-900 rounded-xl p-2 m-2
+                       hover:shadow-lg hover:shadow-sky-500 transition ease-in-out duration-500 hover:scale-105"
+        >
+            <Modal
+                isOpen={isOpen}
+                className={`fixed top-0 right-0 w-full h-full transition animate-modal-open ${
+                    isStartCloseModalAnimation
+                        ? "animate-modal-close"
+                        : "opacity-100"
+                }`}
+            >
+                <FullProductCard
+                    product={currentProduct}
+                    closeModal={closeModal}
+                    setIsStartCloseModalAnimation={
+                        setIsStartCloseModalAnimation
+                    }
+                />
             </Modal>
             <div
                 onClick={() => handlerTitleOnClick(product)}
-                className="text-2xl text-center text-red-400 cursor-pointer"
+                className="text-2xl text-center font-bold text-white cursor-pointer p-2 hover:text-sky-500 transition"
             >
                 {name}
             </div>
@@ -80,15 +99,11 @@ export const BikeCard = ({ product }: ProductCardProps) => {
                 <select
                     name="variants"
                     id="1"
-                    className="w-full rounded-xl p-1 bg-sky-600 cursor-pointer text-white"
+                    className="w-full rounded-xl p-1 bg-neutral-700 cursor-pointer text-white hover:bg-neutral-600 transition"
                     onChange={(e) => setActiveArticleId(+e.target.value)}
                 >
                     {variants.map((variant) => (
-                        <option
-                            key={variant.id}
-                            value={variant.id}
-                            className="cursor-pointer"
-                        >
+                        <option key={variant.id} value={variant.id}>
                             {variant.title}
                         </option>
                     ))}
@@ -102,7 +117,7 @@ export const BikeCard = ({ product }: ProductCardProps) => {
                 />
             </div>
             <div
-                className="flex justify-between border p-1 rounded-xl cursor-pointer hover:bg-green-800"
+                className="flex justify-between border p-1 rounded-xl cursor-cell hover:bg-sky-800 transition"
                 onClick={handlerCopyToClipboard}
             >
                 <p>артикул:</p>

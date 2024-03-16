@@ -26,12 +26,12 @@ export const Dropzone = ({ setImageUrl }: DropzoneProps) => {
     return (
         <div
             {...getRootProps()}
-            className={`bg-gray-600 p-2 text-center flex items-center w-52 h-40 rounded-xl cursor-pointer hover:bg-green-400 ${
-                isDragActive && "bg-green-400"
+            className={`bg-neutral-600 transition p-2 text-center flex items-center w-52 h-40 rounded-xl cursor-pointer hover:bg-sky-600 ${
+                isDragActive && "bg-sky-600"
             }`}
         >
             <input {...getInputProps()} />
-            <p className="">
+            <p className="opacity-80">
                 Перетащите файлы сюда или кликните, чтобы добавить картинку
             </p>
         </div>

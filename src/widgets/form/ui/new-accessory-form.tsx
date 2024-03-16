@@ -8,10 +8,7 @@ import { SUBCATEGORY_CATEGORY_ID_IN_DATABASE } from "../model/constants";
 import axios from "@/shared/api/axios-config";
 import { ErrorMessage } from "@hookform/error-message";
 import { dynamicAccessoryFormFields } from "../model/dynamic-accessory-form-fields";
-import {
-    Product,
-    Subcategory,
-} from "@/widgets/product-card/types/product-types";
+import { Subcategory } from "@/widgets/product-card/types/product-types";
 
 export const NewAccessoryForm = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
@@ -22,7 +19,19 @@ export const NewAccessoryForm = () => {
         setError,
         control,
         formState: { errors },
-    } = useForm<AccessoryFormData>();
+    } = useForm<AccessoryFormData>({
+        defaultValues: {
+            subcategoryIds: [],
+            dynamicFields: [
+                {
+                    article: "",
+                    color: "",
+                    frameSize: "",
+                    price: "",
+                },
+            ],
+        },
+    });
 
     const { fields, append } = useFieldArray({
         control,
@@ -65,19 +74,22 @@ export const NewAccessoryForm = () => {
         setSubcategories(data);
     };
 
-    console.log(subcategories);
-
     return (
         <div>
-            <h1 className="text-2xl text-center mt-10">Создание акссесуара</h1>
-            <div className="flex flex-col w-fit h-fit p-3 rounded-xl bg-emerald-700 ml-4">
+            <div
+                className={`flex flex-col w-fit h-fit p-3  rounded-xl  ml-4 mt-20 ${
+                    imageUrl !== ""
+                        ? "shadow-md shadow-amber-600 bg-neutral-800"
+                        : "form-bg"
+                }`}
+            >
                 <h3 className="text-xl text-center mb-5">Добавить фото</h3>
                 <div className="flex gap-10">
                     <div className="flex flex-col w-40 h-40 overflow-hidden">
-                        <p>Предпросмотр</p>
+                        <p className="text-center">Предпросмотр</p>
                         <img
                             src={imageUrl}
-                            alt="фото"
+                            alt="нет фото"
                             className="w-full h-full object-contain"
                         />
                     </div>
@@ -85,18 +97,23 @@ export const NewAccessoryForm = () => {
                 </div>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-                <div className="bg-emerald-700 rounded-xl -mt-36 self-end mr-4">
+                <div
+                    className={`rounded-xl self-end mr-4 -mt-36 w-1/2  ${
+                        errors.subcategoryIds
+                            ? "shadow-lg shadow-rose-600 bg-neutral-800 animate-shake"
+                            : "form-bg"
+                    }`}
+                >
                     <h3 className="text-xl text-center mb-5 mt-5">
                         Выберите категории
                     </h3>
-                    <div className="flex p-2 gap-2 flex-wrap">
+                    <div className={`flex p-2 gap-2 flex-wrap justify-center `}>
                         {subcategories.map((subcategory) => (
                             <div key={subcategory.id}>
                                 <div
-                                    key={subcategory.id}
-                                    className={`p-2 bg-gray-800 flex min-w-[17%] gap-2 rounded-xl ${
+                                    className={`p-2 bg-neutral-700 flex min-w-[17%] gap-2 rounded-xl ${
                                         errors.subcategoryIds
-                                            ? "bg-red-500 animate-shake"
+                                            ? "bg-gradient-to-r from-rose-500 to-red-400"
                                             : ""
                                     }`}
                                 >
@@ -114,14 +131,27 @@ export const NewAccessoryForm = () => {
                         errors={errors}
                         name="subcategoryIds"
                         render={({ message }) => (
-                            <p className="text-red-500">{message}</p>
+                            <p className="text-rose-400 opacity-70 text-center mt-2 mb-2">
+                                {message}
+                            </p>
                         )}
                     />
                 </div>
                 <h2 className="text-2xl text-center mt-10">
                     Основные характеристики
                 </h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 m-4 p-10 bg-emerald-700 rounded-xl">
+                {errors.name && (
+                    <p className="text-rose-400 opacity-70 text-center mt-2 mb-2">
+                        Поле "Название товара" не должно быть пустым
+                    </p>
+                )}
+                <div
+                    className={`grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 m-4 p-10 rounded-xl ${
+                        errors.name
+                            ? "shadow-lg shadow-rose-600 bg-neutral-800 animate-shake"
+                            : "form-bg "
+                    }`}
+                >
                     {accessoryFormFields.map(
                         ({ placeholder, label, required }) => (
                             <div key={placeholder}>
@@ -136,35 +166,49 @@ export const NewAccessoryForm = () => {
                     )}
                 </div>
 
-                <button
-                    className="bg-red-700 p-2 rounded-xl hover:bg-red-900 
-                                cursor-pointer h-fit w-40 xl:col-span-5 
-                                lg:col-span-3 md:col-span-2 justify-self-center mt-10"
-                    type="submit"
-                >
-                    Создать акссесуар
-                </button>
+                <div className="flex flex-col">
+                    <button
+                        className="bg-gradient-to-r from-amber-700 to-amber-600 p-2 
+                                rounded-xl hover:opacity-70 transition
+                                cursor-pointer h-10 w-1/6 self-start ml-4"
+                        type="submit"
+                    >
+                        Создать акссесуар
+                    </button>
+                </div>
 
                 <div className="flex flex-col">
                     <h2 className="text-xl text-center mb-5">
                         Добавление комплектации акссесуара
                     </h2>
+                    {errors.dynamicFields && (
+                        <p className="text-rose-400 opacity-70 text-center mt-2 mb-5">
+                            Поле "Артикул" не должно быть пустым
+                        </p>
+                    )}
                     {fields.map(({ id, ...field }, index) => (
                         <div
                             key={id}
-                            className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mr-4 mb-2 ml-4 p-10 bg-emerald-700 rounded-xl"
+                            className={`grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 
+                        mr-4 mb-2 ml-4 p-10 rounded-xl ${
+                            errors.dynamicFields
+                                ? "shadow-lg shadow-rose-600 bg-neutral-800 animate-shake"
+                                : "form-bg"
+                        }`}
                         >
                             {dynamicAccessoryFormFields.map(
                                 ({ placeholder, label, required }) => (
                                     <input
                                         {...register(
-                                            `dynamicFields[${index}].${label}` as Path<AccessoryFormData>
+                                            `dynamicFields[${index}].${label}` as Path<AccessoryFormData>,
+                                            {
+                                                required,
+                                            }
                                         )}
                                         autoComplete="off"
                                         placeholder={placeholder}
-                                        className="text-black w-48 rounded-md p-1 mb-2"
+                                        className="text-black w-48 rounded-md p-1 mb-2 animate-fade-in"
                                         key={label}
-                                        required={required}
                                     />
                                 )
                             )}
@@ -173,7 +217,7 @@ export const NewAccessoryForm = () => {
                     <button
                         type="button"
                         onClick={addFields}
-                        className="bg-blue-700 p-2 rounded-xl hover:bg-blue-900 cursor-pointer w-1/2 self-center mt-5 mb-5"
+                        className="bg-gradient-to-r from-sky-700 to-sky-400 p-2 rounded-xl hover:opacity-70 transition cursor-pointer w-1/2 self-center mt-5 mb-20"
                     >
                         Добавить комплектацию
                     </button>

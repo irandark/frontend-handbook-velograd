@@ -2,7 +2,7 @@ import { BikeFormFields } from "../types/bike-form-types";
 
 export const bikeFormFields: BikeFormFields = [
     {
-        placeholder: "Название товара",
+        placeholder: "Название товара*",
         label: "name",
         required: true,
     },

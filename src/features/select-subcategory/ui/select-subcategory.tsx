@@ -20,8 +20,10 @@ export const SelectSubcategory = ({ categoryId }: { categoryId: number }) => {
                 {subcategories.map(({ id, name }) => (
                     <Tag
                         onClick={() => setActiveSubcategoryId(id)}
-                        className={`p-2 cursor-pointer hover:bg-slate-800 rounded-xl + ${
-                            activeSubcategoryId === id ? "bg-slate-800" : ""
+                        className={`p-2 cursor-pointer hover:bg-gradient-to-r hover:from-neutral-700 hover:to-neutral-800 rounded-xl + ${
+                            activeSubcategoryId === id
+                                ? "shadow-md shadow-amber-500 text-amber-300 font-bold"
+                                : ""
                         }`}
                         key={id}
                         title={name}

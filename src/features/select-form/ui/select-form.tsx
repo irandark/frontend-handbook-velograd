@@ -16,8 +16,10 @@ export const SelectForm = () => {
                     <Tag
                         onClick={() => setActiveFormById(id)}
                         key={id}
-                        className={`flex gap-2 bg-gray-700 p-2 rounded-xl hover:bg-green-900 cursor-pointer ${
-                            id === activeFormId && "bg-green-900"
+                        className={`flex  gap-2 p-2 cursor-pointer hover:bg-gradient-to-r hover:from-neutral-700 hover:to-neutral-800 rounded-xl + ${
+                            activeFormId === id
+                                ? "shadow-md shadow-sky-500 font-bold text-sky-300"
+                                : ""
                         }`}
                         iconLucide={<CircleFadingPlus />}
                         title={title}

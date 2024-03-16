@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 interface ModalProps {
     children: React.ReactNode;
     isOpen: boolean;
+    className: string;
 }
 
-export const Modal = ({ children, isOpen }: ModalProps) => {
+export const Modal = ({ children, isOpen, className }: ModalProps) => {
     const [modalContainer] = useState(document.createElement("div"));
 
     useEffect(() => {
@@ -20,9 +21,7 @@ export const Modal = ({ children, isOpen }: ModalProps) => {
     return (
         isOpen &&
         createPortal(
-            <div className="fixed top-0 left-0 right-0 bottom-0 bg-zinc-800 z-50">
-                {children}
-            </div>,
+            <div className={className}>{children}</div>,
             modalContainer
         )
     );

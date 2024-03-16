@@ -1,1 +1,1 @@
-export { SelectForm } from "./ui/SelectForm";
+export { SelectForm } from "./ui/select-form";

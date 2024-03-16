@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ResizeButton } from "./resize-button";
 import { useSidebarStore } from "../model/store";
 import { dynamicCategories, staticCategories } from "../model/categories";
+import { useEffect, useState } from "react";
 
 interface SidebarProps {
     className?: string;
@@ -11,6 +12,16 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
     const { isResized } = useSidebarStore((state) => state);
+    const [isEndAnimationResized, setIsEndAnimationResized] = useState(false);
+
+    useEffect(() => {
+        if (isResized) {
+            setTimeout(() => {
+                setIsEndAnimationResized(true);
+            }, 200);
+        }
+        setIsEndAnimationResized(false);
+    }, [isResized]);
 
     return (
         <div className={`${isResized ? "w-[14vw]" : "w-[3vw]"} ${className}`}>
@@ -18,28 +29,30 @@ export function Sidebar({ className }: SidebarProps) {
             {dynamicCategories.map(({ id, title, icon }) => (
                 <Link
                     href={`/products/${id}`}
-                    className="flex mt-4 p-2 gap-2 cursor-pointer hover:bg-gray-700 rounded-xl"
+                    className="flex mt-4 p-2 gap-2 cursor-pointer hover:bg-zinc-800 hover:shadow-sky-500 rounded-xl shadow-sm hover:animate-pulse"
                     key={id}
                 >
                     <div>{icon}</div>
-                    {isResized && <div>{title}</div>}
+                    <span>{isEndAnimationResized && title}</span>
                 </Link>
             ))}
             {staticCategories.map(({ id, title, icon, link }) => (
                 <Link
                     href={link}
-                    className="flex mt-4 p-2 gap-2 cursor-pointer hover:bg-gray-700 rounded-xl"
+                    className="flex mt-4 p-2 gap-2 cursor-pointer hover:bg-zinc-800 
+                    rounded-xl shadow-sm hover:shadow-sky-500 hover:animate-pulse"
                     key={id}
                 >
                     <div>{icon}</div>
-                    {isResized && <div>{title}</div>}
+
+                    <span>{isEndAnimationResized && title}</span>
                 </Link>
             ))}
             <div>
                 <ResizeButton
                     className={`${
                         isResized ? "right-1" : "right-2"
-                    } absolute bottom-2 cursor-pointer hover:bg-gray-700 p-2 rounded-xl`}
+                    } absolute bottom-2 cursor-pointer hover:bg-zinc-800 p-2 rounded-xl shadow-sm`}
                 />
             </div>
         </div>

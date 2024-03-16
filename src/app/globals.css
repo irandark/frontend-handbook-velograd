@@ -15,14 +15,68 @@
     }
 }
 
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes modalAppearsRight {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes modalAppearsLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.animate-modal-open {
+    animation: modalAppearsRight 0.5s ease-in-out;
+}
+
+.animate-modal-close {
+    animation: modalAppearsLeft 0.5s ease-in-out;
+}
+
 .animate-shake {
     animation: shake 0.2s ease-in-out;
 }
 
-:root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.gradient-black-to-gray {
+    background-image: linear-gradient(
+        to right,
+        rgb(15, 15, 15),
+        rgb(54, 53, 53)
+    );
+}
+
+.form-bg {
+    --tw-bg-opacity: 1;
+    background-color: rgb(38 38 38 / var(--tw-bg-opacity));
+    --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),
+        0 4px 6px -4px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+        var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    --tw-shadow-color: #404040;
+    --tw-shadow: var(--tw-shadow-colored);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,15 +86,19 @@
         --background-end-rgb: 0, 0, 0;
     }
 }
-
 body {
+    @apply text-base;
+    font-family: var(--font-zen), sans-serif;
     color: rgb(var(--foreground-rgb));
-    background: linear-gradient(
-            to bottom,
-            transparent,
-            rgb(var(--background-end-rgb))
-        )
-        rgb(var(--background-start-rgb));
+    background-color: #202020;
+
+    @media (max-width: 1200px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 992px) {
+        font-size: 14px;
+    }
 }
 
 @layer utilities {
