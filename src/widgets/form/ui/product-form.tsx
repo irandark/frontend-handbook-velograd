@@ -1,41 +1,31 @@
-import { Path, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { createProduct } from "../api/create-product";
-import { dynamicBikeFormFields } from "../model/dynamic-bike-form-fields";
-import { Dropzone } from "@/shared/ui/dropzone";
-import { useEffect, useState } from "react";
-import { ErrorMessage } from "@hookform/error-message";
-import axios from "@/shared/api/axios-config";
-import { BIKE_CATEGORY_ID_IN_DATABASE } from "../model/constants";
 import { Subcategory } from "@/widgets/product-card/types/product-types";
-import { BikeFormData } from "../types/bike-form-types";
-import { bikeFormFields } from "../model/bike-form-fields";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { createProduct } from "../api/create-product";
+import axios from "@/shared/api/axios-config";
 import { FormDropzone } from "./form-dropzone";
 import { FormSubcategories } from "./form-subcategories";
 import { FormMainCharacteristics } from "./form-main-characteristics";
-import { FormDynamicFields } from "./form-dynamic-fields";
 import { SubmitButton } from "./submit-button";
+import { FormDynamicFields } from "./form-dynamic-fields";
 
-export const NewBikeForm = () => {
+export const ProductForm = ({
+    productDynamicFields,
+    productAppendDynamicData,
+    categoryId,
+}) => {
     const [imageUrl, setImageUrl] = useState<string>("");
     const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
     const {
         register,
         handleSubmit,
+        setError,
         control,
         formState: { errors },
-        setError,
-    } = useForm<BikeFormData>({
+    } = useForm<ProductFormData>({
         defaultValues: {
             subcategoryIds: [],
-            dynamicFields: [
-                {
-                    article: "",
-                    wheelDiameter: "",
-                    color: "",
-                    frameSize: "",
-                    price: "",
-                },
-            ],
+            dynamicFields: productDynamicFields,
         },
     });
 
@@ -44,21 +34,23 @@ export const NewBikeForm = () => {
         name: "dynamicFields",
     });
 
-    const onSubmit: SubmitHandler<BikeFormData> = (data) => {
+    const addFields = () => {
+        append(productAppendDynamicData);
+    };
+
+    const onSubmit: SubmitHandler<ProductFormData> = (data) => {
         if (data.subcategoryIds.length === 0) {
             setError("subcategoryIds", {
                 type: "required",
                 message: "Выберите хотя бы одну подкатегорию",
             });
         } else {
-            createProduct(data, imageUrl, BIKE_CATEGORY_ID_IN_DATABASE);
+            createProduct(data, imageUrl, categoryId);
         }
     };
 
     const getSubcategoryies = async () => {
-        const { data } = await axios.get(
-            `subcategory/category/${BIKE_CATEGORY_ID_IN_DATABASE}`
-        );
+        const { data } = await axios.get(`subcategory/category/${categoryId}`);
 
         setSubcategories(data);
     };
@@ -83,9 +75,12 @@ export const NewBikeForm = () => {
                 <FormMainCharacteristics
                     errors={errors}
                     register={register}
-                    bikeFormFields={bikeFormFields}
+                    bikeFormFields={
+                        bikeFormFields
+                    } /* добавить универсальные данные под обе формы */
                 />
                 <SubmitButton />
+
                 <FormDynamicFields
                     errors={errors}
                     register={register}
