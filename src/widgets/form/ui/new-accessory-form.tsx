@@ -42,7 +42,7 @@ export const NewAccessoryForm = () => {
         },
     });
 
-    const { fields, append } = useFieldArray({
+    const { fields, append, remove } = useFieldArray({
         control,
         name: "dynamicFields",
     });
@@ -80,6 +80,7 @@ export const NewAccessoryForm = () => {
                     dynamicFormFields={dynamicAccessoryFormFields}
                     append={append}
                     appendFields={appendAccessoryFields}
+                    remove={remove}
                 />
             </form>
         </div>

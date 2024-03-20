@@ -1,7 +1,11 @@
 import { FieldArrayWithId, Path, UseFieldArrayAppend } from "react-hook-form";
-import { BikeFormData } from "../types/bike-form-types";
+import { BikeFormData, DynamicBikeFormFields } from "../types/bike-form-types";
 import { FormComponentsPropsTypes } from "../types/form-components-props-types";
-import { AccessoryFormData } from "../types/accessory-form-types";
+import {
+    AccessoryFormData,
+    DynamicAccessoryFormFields,
+} from "../types/accessory-form-types";
+import { X } from "lucide-react";
 
 interface FormDynamicFieldsProps extends FormComponentsPropsTypes {
     fields:
@@ -17,13 +21,9 @@ interface FormDynamicFieldsProps extends FormComponentsPropsTypes {
         | UseFieldArrayAppend<BikeFormData, "dynamicFields">
         | UseFieldArrayAppend<AccessoryFormData, "dynamicFields">;
 
-    appendFields: {
-        article: string;
-        wheelDiameter?: string;
-        color: string;
-        frameSize: string;
-        price: string;
-    };
+    appendFields: DynamicBikeFormFields | DynamicAccessoryFormFields;
+
+    remove: (index: number) => void;
 }
 
 export const FormDynamicFields: React.FC<FormDynamicFieldsProps> = ({
@@ -33,6 +33,7 @@ export const FormDynamicFields: React.FC<FormDynamicFieldsProps> = ({
     dynamicFormFields,
     append,
     appendFields,
+    remove,
 }) => {
     const addFields = () => {
         append(appendFields);
@@ -51,7 +52,7 @@ export const FormDynamicFields: React.FC<FormDynamicFieldsProps> = ({
                 {fields.map(({ id, ...field }, index) => (
                     <div
                         key={id}
-                        className={`grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 
+                        className={`relative grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 
             mr-4 mb-2 ml-4 p-10 rounded-xl ${
                 errors.dynamicFields
                     ? "shadow-lg shadow-rose-600 bg-neutral-800 animate-shake"
@@ -74,6 +75,16 @@ export const FormDynamicFields: React.FC<FormDynamicFieldsProps> = ({
                                 />
                             )
                         )}
+                        <div
+                            className={`${
+                                fields.length === 1 ? "hidden" : ""
+                            } bg-gradient-to-r from-rose-500 to-red-700 p-2 rounded-xl absolute right-1 top-1
+                        hover:opacity-70 transition cursor-pointer h-8 w-fit
+                        flex justify-center items-center`}
+                            onClick={() => remove(index)}
+                        >
+                            <X />
+                        </div>
                     </div>
                 ))}
             </div>

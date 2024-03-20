@@ -49,7 +49,7 @@ export const NewBikeForm = () => {
         },
     });
 
-    const { fields, append } = useFieldArray({
+    const { fields, append, remove } = useFieldArray({
         control,
         name: "dynamicFields",
     });
@@ -87,6 +87,7 @@ export const NewBikeForm = () => {
                     dynamicFormFields={dynamicBikeFormFields}
                     append={append}
                     appendFields={appendBikeFields}
+                    remove={remove}
                 />
             </form>
         </div>
