@@ -1,15 +1,12 @@
 import { Path, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { SubcategoryFormData } from "../types/subcategory-form-types";
-import { subcategoryFormFields } from "../model/subcategory-form-fields";
-import { createSubcategory } from "../api/create-subcategory";
 import { useEffect, useState } from "react";
 import { Subcategory } from "@/widgets/product-card/types/product-types";
 import axios from "@/shared/api/axios-config";
 import { Tag } from "@/shared/ui/tag";
-import { SelectSubcategory } from "@/features/select-subcategory";
-import { useSelectSubcategoryStore } from "@/features/select-subcategory/model/store";
 import { updateSubcategory } from "../api/update-subcategory";
 import { deleteSubcategory } from "../api/delete-subcategory";
+import { useCategories } from "../hooks/useCategories";
 
 export const EditSubcategoryForm = () => {
     const {
@@ -24,11 +21,13 @@ export const EditSubcategoryForm = () => {
             dynamicFields: [],
         },
     });
-    const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
+
     const [activeSubcategoryId, setActiveSubcategoryId] = useState<number>(0);
 
     const selectedCategory = watch("category");
-
+    const { subcategories, getSubcategories } = useCategories(
+        selectedCategory ? +selectedCategory : 1
+    );
     const { fields, append, remove } = useFieldArray({
         control,
         name: "dynamicFields",
@@ -37,19 +36,12 @@ export const EditSubcategoryForm = () => {
     const onSubmit: SubmitHandler<SubcategoryFormData> = (data) => {
         updateSubcategory(data);
         getSubcategories();
-        reset();
-    };
 
-    const getSubcategories = async () => {
-        const { data } = await axios.get<Subcategory[]>(
-            `subcategory/category/${selectedCategory ? +selectedCategory : 1}`
-        );
-        setSubcategories(data);
+        reset();
     };
 
     useEffect(() => {
         try {
-            getSubcategories();
             setActiveSubcategoryId(0);
             remove(0);
         } catch (error) {

@@ -1,15 +1,15 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
+import { AccessoryFormFields } from "../types/accessory-form-types";
 import { BikeFormData, BikeFormFields } from "../types/bike-form-types";
+import { FormComponentsPropsTypes } from "../types/form-components-props-types";
 
-interface FormMainCharacteristicsProps {
-    errors: FieldErrors<BikeFormData>;
-    register: UseFormRegister<BikeFormData>;
-    bikeFormFields: BikeFormFields;
+interface FormMainCharacteristicsProps extends FormComponentsPropsTypes {
+    formFields: BikeFormFields | AccessoryFormFields;
 }
 
 export const FormMainCharacteristics: React.FC<
     FormMainCharacteristicsProps
-> = ({ errors, register, bikeFormFields }) => {
+> = ({ errors, register, formFields }) => {
     return (
         <>
             <h3 className="text-xl text-center mb-5 mt-20">
@@ -27,7 +27,7 @@ export const FormMainCharacteristics: React.FC<
                         : "form-bg "
                 }`}
             >
-                {bikeFormFields.map(({ placeholder, label, required }) => (
+                {formFields.map(({ placeholder, label, required }) => (
                     <div key={placeholder}>
                         <input
                             {...register(label, { required })}

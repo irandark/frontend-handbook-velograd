@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SubcategoryFormData } from "../types/subcategory-form-types";
-import { subcategoryFormFields } from "../model/subcategory-form-fields";
 import { createSubcategory } from "../api/create-subcategory";
+import { SubmitButton } from "./submit-button";
 
 export const NewSubcategoryForm = () => {
     const {
@@ -29,18 +29,15 @@ export const NewSubcategoryForm = () => {
                         Название категории не должно быть пустым
                     </p>
                 )}
-                {subcategoryFormFields.map(
-                    ({ placeholder, label, required }) => (
-                        <div key={placeholder}>
-                            <input
-                                {...register(label, { required })}
-                                autoComplete="off"
-                                placeholder={placeholder}
-                                className="text-black w-48 rounded-md p-1 mb-2"
-                            />
-                        </div>
-                    )
-                )}
+                <div>
+                    <input
+                        {...register("name", { required: true })}
+                        autoComplete="off"
+                        placeholder={"Название категории"}
+                        className="text-black w-48 rounded-md p-1 mb-2"
+                    />
+                </div>
+
                 <div className="flex flex-col mt-5">
                     <label htmlFor="">Выберите категорию</label>
                     <select
@@ -53,14 +50,7 @@ export const NewSubcategoryForm = () => {
                     </select>
                 </div>
 
-                <button
-                    className="bg-gradient-to-r from-amber-700 to-amber-600 p-2 
-                                rounded-xl hover:opacity-70 transition
-                                cursor-pointer h-10 w-fit self-center mt-10"
-                    type="submit"
-                >
-                    Создать категорию
-                </button>
+                <SubmitButton title={"Создать категорию"} />
             </form>
         </div>
     );

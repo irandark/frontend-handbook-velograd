@@ -1,12 +1,9 @@
 import { Subcategory } from "@/widgets/product-card/types/product-types";
 import { ErrorMessage } from "@hookform/error-message";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { BikeFormData } from "../types/bike-form-types";
+import { FormComponentsPropsTypes } from "../types/form-components-props-types";
 
-interface FormSubcategoriesProps {
+interface FormSubcategoriesProps extends FormComponentsPropsTypes {
     subcategories: Subcategory[];
-    register: UseFormRegister<BikeFormData>;
-    errors: FieldErrors<BikeFormData>;
 }
 
 export const FormSubcategories: React.FC<FormSubcategoriesProps> = ({

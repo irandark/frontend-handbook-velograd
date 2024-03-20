@@ -20,3 +20,10 @@ export const dynamicAccessoryFormFields = [
         required: false,
     },
 ];
+
+export const appendAccessoryFields = {
+    article: "",
+    color: "",
+    frameSize: "",
+    price: "",
+};

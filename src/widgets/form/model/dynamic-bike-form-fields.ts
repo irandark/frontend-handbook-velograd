@@ -25,3 +25,11 @@ export const dynamicBikeFormFields = [
         required: false,
     },
 ];
+
+export const appendBikeFields = {
+    article: "",
+    wheelDiameter: "",
+    color: "",
+    frameSize: "",
+    price: "",
+};

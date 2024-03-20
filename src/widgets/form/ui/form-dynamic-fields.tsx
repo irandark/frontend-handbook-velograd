@@ -1,39 +1,41 @@
-import {
-    FieldArrayWithId,
-    FieldErrors,
-    Path,
-    UseFieldArrayAppend,
-    UseFormRegister,
-} from "react-hook-form";
+import { FieldArrayWithId, Path, UseFieldArrayAppend } from "react-hook-form";
 import { BikeFormData } from "../types/bike-form-types";
+import { FormComponentsPropsTypes } from "../types/form-components-props-types";
+import { AccessoryFormData } from "../types/accessory-form-types";
 
-interface FormDynamicFieldsProps {
-    errors: FieldErrors<BikeFormData>;
-    register: UseFormRegister<BikeFormData>;
-    fields: FieldArrayWithId<BikeFormData, "dynamicFields", "id">[];
-    dynamicBikeFormFields: {
+interface FormDynamicFieldsProps extends FormComponentsPropsTypes {
+    fields:
+        | FieldArrayWithId<BikeFormData, "dynamicFields", "id">[]
+        | FieldArrayWithId<AccessoryFormData, "dynamicFields", "id">[];
+
+    dynamicFormFields: {
         placeholder: string;
         label: string;
         required: boolean;
     }[];
-    append: UseFieldArrayAppend<BikeFormData, "dynamicFields">;
+    append:
+        | UseFieldArrayAppend<BikeFormData, "dynamicFields">
+        | UseFieldArrayAppend<AccessoryFormData, "dynamicFields">;
+
+    appendFields: {
+        article: string;
+        wheelDiameter?: string;
+        color: string;
+        frameSize: string;
+        price: string;
+    };
 }
 
 export const FormDynamicFields: React.FC<FormDynamicFieldsProps> = ({
     errors,
     register,
     fields,
-    dynamicBikeFormFields,
+    dynamicFormFields,
     append,
+    appendFields,
 }) => {
     const addFields = () => {
-        append({
-            article: "",
-            wheelDiameter: "",
-            color: "",
-            frameSize: "",
-            price: "",
-        });
+        append(appendFields);
     };
     return (
         <>
@@ -56,7 +58,7 @@ export const FormDynamicFields: React.FC<FormDynamicFieldsProps> = ({
                     : "form-bg"
             }`}
                     >
-                        {dynamicBikeFormFields.map(
+                        {dynamicFormFields.map(
                             ({ placeholder, label, required }) => (
                                 <input
                                     {...register(

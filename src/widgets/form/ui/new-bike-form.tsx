@@ -1,9 +1,16 @@
-import { Path, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import {
+    FieldValues,
+    SubmitHandler,
+    UseFormRegister,
+    useFieldArray,
+    useForm,
+} from "react-hook-form";
 import { createProduct } from "../api/create-product";
-import { dynamicBikeFormFields } from "../model/dynamic-bike-form-fields";
-import { Dropzone } from "@/shared/ui/dropzone";
+import {
+    appendBikeFields,
+    dynamicBikeFormFields,
+} from "../model/dynamic-bike-form-fields";
 import { useEffect, useState } from "react";
-import { ErrorMessage } from "@hookform/error-message";
 import axios from "@/shared/api/axios-config";
 import { BIKE_CATEGORY_ID_IN_DATABASE } from "../model/constants";
 import { Subcategory } from "@/widgets/product-card/types/product-types";
@@ -14,10 +21,13 @@ import { FormSubcategories } from "./form-subcategories";
 import { FormMainCharacteristics } from "./form-main-characteristics";
 import { FormDynamicFields } from "./form-dynamic-fields";
 import { SubmitButton } from "./submit-button";
+import { useCategories } from "../hooks/useCategories";
 
 export const NewBikeForm = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
-    const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
+
+    const { subcategories } = useCategories(BIKE_CATEGORY_ID_IN_DATABASE);
+
     const {
         register,
         handleSubmit,
@@ -55,22 +65,6 @@ export const NewBikeForm = () => {
         }
     };
 
-    const getSubcategoryies = async () => {
-        const { data } = await axios.get(
-            `subcategory/category/${BIKE_CATEGORY_ID_IN_DATABASE}`
-        );
-
-        setSubcategories(data);
-    };
-
-    useEffect(() => {
-        try {
-            getSubcategoryies();
-        } catch (error) {
-            console.log("ошибка при получении подкатегорий", error);
-        }
-    }, []);
-
     return (
         <div>
             <FormDropzone imageUrl={imageUrl} setImageUrl={setImageUrl} />
@@ -83,15 +77,16 @@ export const NewBikeForm = () => {
                 <FormMainCharacteristics
                     errors={errors}
                     register={register}
-                    bikeFormFields={bikeFormFields}
+                    formFields={bikeFormFields}
                 />
-                <SubmitButton />
+                <SubmitButton title="Создать велосипед" className="ml-4" />
                 <FormDynamicFields
                     errors={errors}
                     register={register}
                     fields={fields}
-                    dynamicBikeFormFields={dynamicBikeFormFields}
+                    dynamicFormFields={dynamicBikeFormFields}
                     append={append}
+                    appendFields={appendBikeFields}
                 />
             </form>
         </div>
