@@ -24,21 +24,20 @@ export const FormSubcategories: React.FC<FormSubcategoriesProps> = ({
             </h3>
             <div className={`flex p-2 gap-2 flex-wrap justify-center `}>
                 {subcategories.map((subcategory) => (
-                    <div key={subcategory.id}>
-                        <div
-                            className={`p-2 bg-neutral-700 flex min-w-[17%] gap-2 rounded-xl ${
-                                errors.subcategoryIds
-                                    ? "bg-gradient-to-r from-rose-500 to-red-400"
-                                    : ""
-                            }`}
-                        >
-                            <input
-                                type="checkbox"
-                                value={subcategory.id}
-                                {...register("subcategoryIds")}
-                            />
-                            <label htmlFor="">{subcategory.name}</label>
-                        </div>
+                    <div
+                        key={subcategory.id}
+                        className={`p-2 bg-neutral-700 flex min-w-[17%] gap-2 rounded-xl ${
+                            errors.subcategoryIds
+                                ? "bg-gradient-to-r from-rose-500 to-red-400"
+                                : ""
+                        }`}
+                    >
+                        <input
+                            type="checkbox"
+                            value={subcategory.id}
+                            {...register("subcategoryIds")}
+                        />
+                        <label htmlFor="">{subcategory.name}</label>
                     </div>
                 ))}
             </div>

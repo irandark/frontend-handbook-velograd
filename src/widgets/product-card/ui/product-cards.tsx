@@ -8,7 +8,7 @@ import { useSelectSubcategoryStore } from "@/features/select-subcategory/model/s
 export const ProductCards = ({ categoryId }: { categoryId: number }) => {
     const { products, getProducts } = useProductStore();
     const { activeSubcategoryId } = useSelectSubcategoryStore();
-
+    console.log(products);
     useEffect(() => {
         getProducts(categoryId, [activeSubcategoryId], "DESC");
     }, [activeSubcategoryId]);

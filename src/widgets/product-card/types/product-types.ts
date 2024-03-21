@@ -5,6 +5,17 @@ export interface Category {
 
 export interface Subcategory extends Category {}
 
+interface Warehouse {
+    id: number;
+    name: string;
+}
+
+interface StockItem {
+    id: number;
+    quantity: number;
+    warehouse: Warehouse;
+}
+
 export interface ProductVariant {
     id: number;
     article: string;
@@ -12,7 +23,7 @@ export interface ProductVariant {
     color?: string;
     frameSize?: string;
     price: number;
-    stockItems?: any[]; //FIXME:Здесь следует уточнить тип данных для элементов в stockItems
+    stockItems?: StockItem[];
 }
 
 export interface Product {

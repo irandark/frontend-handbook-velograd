@@ -7,6 +7,7 @@ import { Tag } from "@/shared/ui/tag";
 import { updateSubcategory } from "../api/update-subcategory";
 import { deleteSubcategory } from "../api/delete-subcategory";
 import { useCategories } from "../hooks/useCategories";
+import { SubmitButton } from "./submit-button";
 
 export const EditSubcategoryForm = () => {
     const {
@@ -22,16 +23,16 @@ export const EditSubcategoryForm = () => {
         },
     });
 
-    const [activeSubcategoryId, setActiveSubcategoryId] = useState<number>(0);
-
     const selectedCategory = watch("category");
     const { subcategories, getSubcategories } = useCategories(
         selectedCategory ? +selectedCategory : 1
     );
+    const [activeSubcategoryId, setActiveSubcategoryId] = useState<number>(-1);
     const { fields, append, remove } = useFieldArray({
         control,
         name: "dynamicFields",
     });
+    const [isVisibleSubmitButton, setIsVisibleSubmitButton] = useState(false);
 
     const onSubmit: SubmitHandler<SubcategoryFormData> = (data) => {
         updateSubcategory(data);
@@ -41,15 +42,13 @@ export const EditSubcategoryForm = () => {
     };
 
     useEffect(() => {
-        try {
-            setActiveSubcategoryId(0);
-            remove(0);
-        } catch (error) {
-            console.log(error);
-        }
+        setActiveSubcategoryId(-1);
+        remove(0);
+        setIsVisibleSubmitButton(false);
     }, [selectedCategory]);
 
     const handlerOnclickTag = (id: number) => {
+        setIsVisibleSubmitButton(true);
         remove(0);
         setActiveSubcategoryId(id);
         append({
@@ -133,15 +132,9 @@ export const EditSubcategoryForm = () => {
                     </div>
                 </div>
             ))}
-
-            <button
-                className="bg-gradient-to-r from-amber-700 to-amber-600 p-2 
-                                rounded-xl hover:opacity-70 transition
-                                cursor-pointer h-10 w-fit self-center mt-10"
-                type="submit"
-            >
-                Сохранить категорию
-            </button>
+            {isVisibleSubmitButton && (
+                <SubmitButton title="Сохранить" className="mt-10" />
+            )}
         </form>
     );
 };

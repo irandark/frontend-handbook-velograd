@@ -5,11 +5,12 @@ import { FormComponentsPropsTypes } from "../types/form-components-props-types";
 
 interface FormMainCharacteristicsProps extends FormComponentsPropsTypes {
     formFields: BikeFormFields | AccessoryFormFields;
+    isLabel?: boolean;
 }
 
 export const FormMainCharacteristics: React.FC<
     FormMainCharacteristicsProps
-> = ({ errors, register, formFields }) => {
+> = ({ errors, register, formFields, isLabel }) => {
     return (
         <>
             <h3 className="text-xl text-center mb-5 mt-20">
@@ -28,7 +29,10 @@ export const FormMainCharacteristics: React.FC<
                 }`}
             >
                 {formFields.map(({ placeholder, label, required }) => (
-                    <div key={placeholder}>
+                    <div key={placeholder} className="flex flex-col">
+                        {isLabel && (
+                            <label htmlFor={label}>{placeholder}</label>
+                        )}
                         <input
                             {...register(label, { required })}
                             autoComplete="off"

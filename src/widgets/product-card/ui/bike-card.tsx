@@ -153,10 +153,7 @@ export const BikeCard = ({ product }: ProductCardProps) => {
                 <p>тип торм.</p>
                 <p>{brakeType ? brakeType : "нет данных"}</p>
             </div>
-            <div className="flex justify-between">
-                <p>наличие шт</p>
-                <p>наличие</p>
-            </div>
+
             <div className="flex justify-between">
                 <p>цена</p>
                 <div>
@@ -166,6 +163,35 @@ export const BikeCard = ({ product }: ProductCardProps) => {
                                 {variant.id === activeArticleId &&
                                     variant.price}
                             </p>
+                        ))}
+                </div>
+            </div>
+
+            <div className="flex flex-col justify-between border p-1 rounded-xl mt-3">
+                <p className="text-center">Наличие</p>
+                <div>
+                    {productVariants &&
+                        productVariants.map((variant) => (
+                            <div key={variant.id}>
+                                {variant.id === activeArticleId &&
+                                    variant.stockItems?.map((stockItem) => (
+                                        <p key={stockItem.id}>
+                                            {stockItem.quantity > 0 && (
+                                                <div className="flex justify-between gap-2">
+                                                    <p>
+                                                        {
+                                                            stockItem.warehouse
+                                                                .name
+                                                        }
+                                                    </p>
+                                                    <p>
+                                                        {stockItem.quantity} шт
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </p>
+                                    ))}
+                            </div>
                         ))}
                 </div>
             </div>
