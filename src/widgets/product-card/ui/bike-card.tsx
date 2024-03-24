@@ -12,9 +12,10 @@ import { FullProductCard } from "..";
 
 export const BikeCard = ({ product }: ProductCardProps) => {
     const [activeArticleId, setActiveArticleId] = useState(0);
-    const [variants, setVariants] = useState<{ id: number; title: string }[]>(
-        []
-    );
+    const [selectInputProductVariants, setSelectInputProductVariants] =
+        useState<
+            { id: number; title: string; isInStock: boolean | undefined }[]
+        >([]);
 
     const { openModal, isOpen, closeModal } = useModal();
     const [isStartCloseModalAnimation, setIsStartCloseModalAnimation] =
@@ -39,15 +40,22 @@ export const BikeCard = ({ product }: ProductCardProps) => {
                 return {
                     id: variant.id,
                     title: `${variant.frameSize} ${variant.color} ${variant.wheelDiameter}`,
+                    isInStock: variant.stockItems?.some(
+                        (item) => item.quantity > 0
+                    ),
                 };
             }
         });
     };
 
+    console.log(selectInputProductVariants);
+
     useEffect(() => {
         if (productVariants) {
             setActiveArticleId(productVariants[0].id);
-            setVariants(normalizeProductVariant(productVariants));
+            setSelectInputProductVariants(
+                normalizeProductVariant(productVariants)
+            );
         }
     }, []);
 
@@ -102,11 +110,14 @@ export const BikeCard = ({ product }: ProductCardProps) => {
                     className="w-full rounded-xl p-1 bg-neutral-700 cursor-pointer text-white hover:bg-neutral-600 transition"
                     onChange={(e) => setActiveArticleId(+e.target.value)}
                 >
-                    {variants.map((variant) => (
-                        <option key={variant.id} value={variant.id}>
-                            {variant.title}
-                        </option>
-                    ))}
+                    {selectInputProductVariants.map(
+                        (variant) =>
+                            variant.isInStock && (
+                                <option key={variant.id} value={variant.id}>
+                                    {variant.title}
+                                </option>
+                            )
+                    )}
                 </select>
             </div>
             <div className="w-full h-64 m-auto p-2">
@@ -174,23 +185,27 @@ export const BikeCard = ({ product }: ProductCardProps) => {
                         productVariants.map((variant) => (
                             <div key={variant.id}>
                                 {variant.id === activeArticleId &&
-                                    variant.stockItems?.map((stockItem) => (
-                                        <p key={stockItem.id}>
-                                            {stockItem.quantity > 0 && (
-                                                <div className="flex justify-between gap-2">
-                                                    <p>
-                                                        {
-                                                            stockItem.warehouse
-                                                                .name
-                                                        }
-                                                    </p>
-                                                    <p>
-                                                        {stockItem.quantity} шт
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </p>
-                                    ))}
+                                    variant.stockItems
+                                        ?.sort((a, b) => a.id - b.id)
+                                        .map((stockItem) => (
+                                            <p key={stockItem.id}>
+                                                {stockItem.quantity > 0 && (
+                                                    <div className="flex justify-between gap-2">
+                                                        <p>
+                                                            {
+                                                                stockItem
+                                                                    .warehouse
+                                                                    .name
+                                                            }
+                                                        </p>
+                                                        <p>
+                                                            {stockItem.quantity}{" "}
+                                                            шт
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </p>
+                                        ))}
                             </div>
                         ))}
                 </div>
