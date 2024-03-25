@@ -3,6 +3,7 @@ import { Inter, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/widgets/header";
 import { Sidebar } from "@/widgets/sidebar";
+import { Toaster } from "sonner";
 
 const zen = Noto_Sans({
     subsets: ["cyrillic", "latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
                     <Sidebar className="relative gradient-black-to-gray p-2 h-[90vh] mt-2 flex-col gap-5 rounded-md flex-grow-0 flex-shrink-0 transition-all ease-in-out" />
                     <main className="flex-grow">{children}</main>
                 </div>
+                <Toaster />
             </body>
         </html>
     );

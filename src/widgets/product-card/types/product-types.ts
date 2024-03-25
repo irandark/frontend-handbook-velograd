@@ -52,4 +52,5 @@ export interface Product {
 
 export interface ProductCardProps {
     product: Product;
+    isCheckedShowAllProducts: boolean;
 }

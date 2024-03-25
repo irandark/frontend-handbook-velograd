@@ -27,6 +27,8 @@ import { FormCheckboxInput } from "./form-checkbox-input";
 import { SubmitButton } from "./submit-button";
 import { FormMainCharacteristics } from "./form-main-characteristics";
 import { FormDynamicFields } from "./form-dynamic-fields";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const EditBikeForm = ({
     currentProduct,
@@ -36,6 +38,8 @@ export const EditBikeForm = ({
     const [imageUrl, setImageUrl] = useState<string>("");
     const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
     const { isOpen, openModal, closeModal } = useModal();
+
+    const router = useRouter();
 
     const {
         register,
@@ -87,6 +91,8 @@ export const EditBikeForm = ({
             });
         } else {
             updateBike(data, imageUrl, currentProduct.id);
+            toast.success("Велосипед обновлен");
+            router.push("/products/1");
         }
     };
 
@@ -106,16 +112,6 @@ export const EditBikeForm = ({
             console.log("ошибка при получении подкатегорий", error);
         }
     }, []);
-
-    const addFields = () => {
-        append({
-            article: "",
-            wheelDiameter: "",
-            color: "",
-            frameSize: "",
-            price: "",
-        });
-    };
 
     return (
         <div>

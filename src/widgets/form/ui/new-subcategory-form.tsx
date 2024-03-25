@@ -2,16 +2,21 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { SubcategoryFormData } from "../types/subcategory-form-types";
 import { createSubcategory } from "../api/create-subcategory";
 import { SubmitButton } from "./submit-button";
+import { toast } from "sonner";
 
 export const NewSubcategoryForm = () => {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm<SubcategoryFormData>();
 
     const onSubmit: SubmitHandler<SubcategoryFormData> = (data) => {
         createSubcategory(data);
+
+        toast.success("Категория создана");
+        reset();
     };
 
     return (

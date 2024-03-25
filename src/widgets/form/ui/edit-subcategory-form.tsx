@@ -1,13 +1,13 @@
 import { Path, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { SubcategoryFormData } from "../types/subcategory-form-types";
 import { useEffect, useState } from "react";
-import { Subcategory } from "@/widgets/product-card/types/product-types";
-import axios from "@/shared/api/axios-config";
 import { Tag } from "@/shared/ui/tag";
 import { updateSubcategory } from "../api/update-subcategory";
 import { deleteSubcategory } from "../api/delete-subcategory";
 import { useCategories } from "../hooks/useCategories";
 import { SubmitButton } from "./submit-button";
+
+import { Toaster, toast } from "sonner";
 
 export const EditSubcategoryForm = () => {
     const {
@@ -38,6 +38,8 @@ export const EditSubcategoryForm = () => {
         updateSubcategory(data);
         getSubcategories();
 
+        toast.success("Категория обновлена");
+
         reset();
     };
 
@@ -47,6 +49,13 @@ export const EditSubcategoryForm = () => {
         setIsVisibleSubmitButton(false);
     }, [selectedCategory]);
 
+    const handlerDeleteSubcategory = async (id: number) => {
+        deleteSubcategory(id);
+        toast.success("Категория удалена");
+        getSubcategories();
+        reset();
+    };
+
     const handlerOnclickTag = (id: number) => {
         setIsVisibleSubmitButton(true);
         remove(0);
@@ -55,11 +64,6 @@ export const EditSubcategoryForm = () => {
             name: "",
             subcategoryId: id,
         });
-    };
-
-    const handlerDeleteSubcategory = async (id: number) => {
-        deleteSubcategory(id);
-        reset();
     };
 
     return (
@@ -76,6 +80,7 @@ export const EditSubcategoryForm = () => {
                     Название категории не должно быть пустым
                 </p>
             )}
+
             <div className="flex flex-col mt-5">
                 <label htmlFor="">Выберите категорию</label>
                 <select

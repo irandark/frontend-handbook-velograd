@@ -14,6 +14,7 @@ import {
     dynamicAccessoryFormFields,
 } from "../model/dynamic-accessory-form-fields";
 import { useCategories } from "../hooks/useCategories";
+import { toast } from "sonner";
 
 export const NewAccessoryForm = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
@@ -25,6 +26,7 @@ export const NewAccessoryForm = () => {
     const {
         register,
         handleSubmit,
+        reset,
         setError,
         control,
         formState: { errors },
@@ -55,6 +57,9 @@ export const NewAccessoryForm = () => {
             });
         } else {
             createProduct(data, imageUrl, SUBCATEGORY_CATEGORY_ID_IN_DATABASE);
+            toast.success("Аксессуар создан");
+            reset();
+            setImageUrl("");
         }
     };
 

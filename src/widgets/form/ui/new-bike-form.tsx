@@ -22,6 +22,7 @@ import { FormMainCharacteristics } from "./form-main-characteristics";
 import { FormDynamicFields } from "./form-dynamic-fields";
 import { SubmitButton } from "./submit-button";
 import { useCategories } from "../hooks/useCategories";
+import { toast } from "sonner";
 
 export const NewBikeForm = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
@@ -33,6 +34,7 @@ export const NewBikeForm = () => {
         handleSubmit,
         control,
         formState: { errors },
+        reset,
         setError,
     } = useForm<BikeFormData>({
         defaultValues: {
@@ -62,6 +64,9 @@ export const NewBikeForm = () => {
             });
         } else {
             createProduct(data, imageUrl, BIKE_CATEGORY_ID_IN_DATABASE);
+            toast.success("Велосипед создан");
+            reset();
+            setImageUrl("");
         }
     };
 
