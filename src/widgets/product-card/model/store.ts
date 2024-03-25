@@ -8,7 +8,7 @@ type ProductStore = {
 
     getProducts: (
         categoryId: number,
-        subcategoryIds: number[],
+        subcategoryIds: (number | "All")[],
         orderDirection?: "ASC" | "DESC"
     ) => void;
 
@@ -25,7 +25,6 @@ export const useProductStore = create<ProductStore>((set) => ({
             subcategoryIds,
             orderDirection,
         });
-
         set({ products: data });
     },
 

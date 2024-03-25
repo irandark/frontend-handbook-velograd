@@ -2,17 +2,17 @@ import { create } from "zustand";
 import axios from "@/shared/api/axios-config";
 
 interface Subcategory {
-    id: number;
+    id: number | "All";
     name: string;
 }
 
 type Subcategories = Subcategory[];
 
 type SelectSubcategoryStore = {
-    activeSubcategoryId: number;
+    activeSubcategoryId: number | "All";
     subcategories: Subcategories;
 
-    setActiveSubcategoryId: (id: number) => void;
+    setActiveSubcategoryId: (id: number | "All") => void;
 
     getSubcategories: (categoryId: number) => void;
 };
@@ -34,7 +34,7 @@ export const useSelectSubcategoryStore = create<SelectSubcategoryStore>(
             const firstSubcategoryId = data[0].id;
 
             set({
-                subcategories: data,
+                subcategories: [...data, { id: "All", name: "Все товары" }],
                 activeSubcategoryId: firstSubcategoryId,
             });
         },

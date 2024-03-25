@@ -11,13 +11,13 @@ export const CheckboxShowAllProducts: React.FC<
             <label className="flex justify-center items-center cursor-pointer gap-1">
                 <input
                     type="checkbox"
-                    className="form-checkbox h-5 w-5"
+                    className="form-checkbox h-5 w-5 cursor-pointer"
                     checked={isCheckedShowAllProducts}
                     onChange={() =>
                         setIsCheckedShowAllProducts(!isCheckedShowAllProducts)
                     }
                 />
-                <span>Показывать все товары</span>
+                <span>Показать товары, которых нет на остатках</span>
             </label>
         </div>
     );

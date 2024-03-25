@@ -8,6 +8,7 @@ import { useCategories } from "../hooks/useCategories";
 import { SubmitButton } from "./submit-button";
 
 import { Toaster, toast } from "sonner";
+import { AxiosError } from "axios";
 
 export const EditSubcategoryForm = () => {
     const {
@@ -50,10 +51,16 @@ export const EditSubcategoryForm = () => {
     }, [selectedCategory]);
 
     const handlerDeleteSubcategory = async (id: number) => {
-        deleteSubcategory(id);
-        toast.success("Категория удалена");
-        getSubcategories();
-        reset();
+        try {
+            await deleteSubcategory(id);
+            toast.success("Категория удалена");
+            getSubcategories();
+            reset();
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.warning(error.response?.data.message);
+            }
+        }
     };
 
     const handlerOnclickTag = (id: number) => {

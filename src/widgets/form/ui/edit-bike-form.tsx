@@ -92,6 +92,7 @@ export const EditBikeForm = ({
         } else {
             updateBike(data, imageUrl, currentProduct.id);
             toast.success("Велосипед обновлен");
+
             router.push("/products/1");
         }
     };
