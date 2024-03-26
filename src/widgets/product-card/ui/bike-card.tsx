@@ -9,6 +9,7 @@ import { useProductStore } from "../model/store";
 import { copyToClipboard } from "../lib/copy-to-clipboard";
 import { Modal, useModal } from "@/shared/ui/modal";
 import { FullProductCard } from "..";
+import { toast } from "sonner";
 
 export const BikeCard = ({
     product,
@@ -92,8 +93,9 @@ export const BikeCard = ({
         });
 
         const article = currentVariant?.article || "";
-
         await copyToClipboard(article);
+
+        toast.success(`артикул ${article} скопирован в буфер обмена`);
     };
 
     return (
@@ -214,7 +216,7 @@ export const BikeCard = ({
                                         variant.stockItems
                                             ?.sort((a, b) => a.id - b.id)
                                             .map((stockItem) => (
-                                                <p key={stockItem.id}>
+                                                <div key={stockItem.id}>
                                                     {stockItem.quantity > 0 && (
                                                         <div className="flex justify-between gap-2">
                                                             <p>
@@ -232,7 +234,7 @@ export const BikeCard = ({
                                                             </p>
                                                         </div>
                                                     )}
-                                                </p>
+                                                </div>
                                             ))}
                                 </div>
                             ))}

@@ -22,7 +22,7 @@ export const useProductStore = create<ProductStore>((set) => ({
     getProducts: async (categoryId, subcategoryIds, orderDirection = "ASC") => {
         const { data } = await axios.post("products/filtered", {
             categoryId,
-            subcategoryIds,
+            subcategoryIds: subcategoryIds[0] === "All" ? [] : subcategoryIds,
             orderDirection,
         });
         set({ products: data });

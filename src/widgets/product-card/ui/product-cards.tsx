@@ -5,19 +5,23 @@ import { useProductStore } from "../model/store";
 import { useEffect } from "react";
 import { useSelectSubcategoryStore } from "@/features/select-subcategory/model/store";
 
-export const ProductCards = ({
-    categoryId,
-    isCheckedShowAllProducts,
-}: {
+interface ProductCardsProps {
     categoryId: number;
     isCheckedShowAllProducts: boolean;
+    sortDirection: "ASC" | "DESC";
+}
+
+export const ProductCards: React.FC<ProductCardsProps> = ({
+    sortDirection,
+    categoryId,
+    isCheckedShowAllProducts,
 }) => {
     const { products, getProducts } = useProductStore();
     const { activeSubcategoryId } = useSelectSubcategoryStore();
 
     useEffect(() => {
-        getProducts(categoryId, [activeSubcategoryId], "DESC");
-    }, [activeSubcategoryId]);
+        getProducts(categoryId, [activeSubcategoryId], sortDirection);
+    }, [activeSubcategoryId, sortDirection]);
 
     return (
         <div className="flex flex-wrap">
